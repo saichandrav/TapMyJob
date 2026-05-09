@@ -1,4 +1,4 @@
-import { Cog, Plus, RotateCw } from 'lucide-react'
+import { Cog, Plus, RotateCw, Upload, FileText } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 import { platforms as platformCatalog } from '../data/platforms.js'
@@ -100,6 +100,37 @@ export default function Sources() {
     url: '',
     frequency: 'Every 6h',
   })
+
+  // Resume upload state
+  const [resumeFile, setResumeFile] = useState(null)
+  const [resumeLoading, setResumeLoading] = useState(false)
+  const [resumeProfile, setResumeProfile] = useState(null)
+
+  const handleResumeUpload = async (e) => {
+    e.preventDefault()
+    if (!resumeFile) return
+    setResumeLoading(true)
+    const formData = new FormData()
+    formData.append('resume', resumeFile)
+    try {
+      const res = await fetch('http://localhost:3000/api/resume/parse', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.error || `HTTP ${res.status}`)
+      }
+      const data = await res.json()
+      setResumeProfile(data.user_summary || data)
+      toast.success('Resume parsed! Go to Dashboard and click "Fetch Live Jobs".')
+    } catch (err) {
+      toast.error(err.message || 'Failed to parse resume')
+    } finally {
+      setResumeLoading(false)
+    }
+  }
 
   const platformCards = useMemo(
     () =>
@@ -203,6 +234,50 @@ export default function Sources() {
 
   return (
     <div className="space-y-6">
+      {/* Resume Upload — required before fetching live jobs */}
+      <section className="rounded-[1.75rem] border border-border bg-surface/90 p-6 shadow-card-glow">
+        <div className="flex items-start gap-4">
+          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-border bg-card text-secondary">
+            <FileText className="h-5 w-5" />
+          </div>
+          <div className="flex-1">
+            <div className="font-display text-2xl text-text-primary">Resume Upload</div>
+            <p className="mt-1 text-sm text-text-muted">
+              Upload your resume (PDF or DOCX) so the backend can extract your profile and find matching jobs.
+            </p>
+          </div>
+        </div>
+
+        <form onSubmit={handleResumeUpload} className="mt-5 flex flex-wrap items-center gap-3">
+          <input
+            type="file"
+            accept=".pdf,.docx,.doc"
+            onChange={(e) => setResumeFile(e.target.files?.[0] || null)}
+            className="text-sm text-text-muted file:mr-3 file:rounded-2xl file:border file:border-border file:bg-card file:px-4 file:py-2 file:text-sm file:text-text-primary file:transition hover:file:border-primary/40"
+          />
+          <button
+            type="submit"
+            disabled={!resumeFile || resumeLoading}
+            className="inline-flex items-center gap-2 rounded-2xl border border-primary/30 bg-primary px-5 py-2.5 text-sm font-medium text-background transition hover:shadow-accent-glow disabled:opacity-50"
+          >
+            <Upload className="h-4 w-4" />
+            {resumeLoading ? 'Parsing…' : 'Parse Resume'}
+          </button>
+        </form>
+
+        {resumeProfile && (
+          <div className="mt-4 rounded-2xl border border-emerald-500/30 bg-emerald-50 p-4 text-sm">
+            <div className="font-medium text-emerald-700">✓ Profile extracted</div>
+            <div className="mt-2 text-emerald-600">
+              <span className="font-medium">Level:</span> {resumeProfile.experience_level} &nbsp;|&nbsp;
+              <span className="font-medium">Skills:</span> {resumeProfile.top_skills?.slice(0, 5).join(', ')} &nbsp;|&nbsp;
+              <span className="font-medium">Location:</span> {resumeProfile.location_preference}
+            </div>
+            <p className="mt-2 text-xs text-emerald-600">Go to Dashboard → click "Fetch Live Jobs" to search across all 13 sources.</p>
+          </div>
+        )}
+      </section>
+
       <section className="rounded-[1.75rem] border border-border bg-surface/90 p-6 shadow-card-glow">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>

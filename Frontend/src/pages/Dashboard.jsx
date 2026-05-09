@@ -2,6 +2,7 @@ import { Bookmark, CheckCircle2, TrendingUp } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { Cell, Pie, PieChart, ResponsiveContainer } from 'recharts'
 import { useJobs } from '../hooks/useJobs.js'
+import { useJobStore } from '../store/jobStore.js'
 import { useSourceStore } from '../store/sourceStore.js'
 import { useUIStore } from '../store/uiStore.js'
 
@@ -124,6 +125,9 @@ export default function Dashboard() {
   const { jobs, savedJobs } = useJobs()
   const sources = useSourceStore((state) => state.sources)
   const setActivePage = useUIStore((state) => state.setActivePage)
+  const fetchJobsFromBackend = useJobStore((state) => state.fetchJobsFromBackend)
+  const isLoadingFromBackend = useJobStore((state) => state.isLoadingFromBackend)
+  const backendError = useJobStore((state) => state.backendError)
 
   const stats = useMemo(
     () => [
@@ -199,6 +203,26 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
+      {/* Live job fetch banner */}
+      <div className="flex items-center justify-between rounded-3xl border border-border bg-surface/90 px-6 py-4 shadow-card-glow">
+        <div>
+          <div className="font-display text-lg text-text-primary">Live Job Search</div>
+          <p className="mt-0.5 text-sm text-text-muted">
+            {backendError
+              ? `Error: ${backendError} — parse your resume first on the Sources page`
+              : 'Upload your resume on the Sources page, then fetch real jobs from 13 sources'}
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={fetchJobsFromBackend}
+          disabled={isLoadingFromBackend}
+          className="shrink-0 rounded-2xl border border-primary/30 bg-primary px-5 py-2.5 text-sm font-medium text-background transition hover:shadow-accent-glow disabled:opacity-50"
+        >
+          {isLoadingFromBackend ? 'Searching…' : 'Fetch Live Jobs'}
+        </button>
+      </div>
+
       <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon

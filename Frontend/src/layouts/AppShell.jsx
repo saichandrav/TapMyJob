@@ -300,7 +300,13 @@ export default function AppShell({ pageTitle, children }) {
                     <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-text-primary">
                       Preferences
                     </button>
-                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-text-primary">
+                    <button
+                      className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-danger"
+                      onClick={async () => {
+                        await fetch('http://localhost:3000/auth/logout', { method: 'POST', credentials: 'include' })
+                        window.location.reload()
+                      }}
+                    >
                       Sign out
                     </button>
                   </div>

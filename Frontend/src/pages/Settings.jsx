@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react'
-import { CloudCog, Palette, Sparkles, Upload, WandSparkles } from 'lucide-react'
+import { CloudCog, Palette, Sparkles, Upload, WandSparkles, Zap } from 'lucide-react'
 
 const tabs = [
   { id: 'profile', label: 'Profile', icon: WandSparkles },
+  { id: 'optimizer', label: 'ATS Optimizer', icon: Zap },
   { id: 'scraping', label: 'Scraping', icon: CloudCog },
-
   { id: 'appearance', label: 'Appearance', icon: Palette },
 ]
 
@@ -129,6 +129,56 @@ function ColorSwatch({ color, active, onClick }) {
 export default function Settings() {
   const [activeTab, setActiveTab] = useState('profile')
   const [avatarFile, setAvatarFile] = useState(null)
+
+  // ATS Optimizer state
+  const [optimizerJdUrl, setOptimizerJdUrl] = useState('')
+  const [optimizerFile, setOptimizerFile] = useState(null)
+  const [optimizerLoading, setOptimizerLoading] = useState(false)
+  const [optimizerResult, setOptimizerResult] = useState(null)
+  const [optimizerError, setOptimizerError] = useState(null)
+
+  const handleOptimize = async (e) => {
+    e.preventDefault()
+    if (!optimizerJdUrl || !optimizerFile) return
+    setOptimizerLoading(true)
+    setOptimizerError(null)
+    setOptimizerResult(null)
+    const formData = new FormData()
+    formData.append('jd_url', optimizerJdUrl)
+    formData.append('resume_file', optimizerFile)
+    try {
+      const res = await fetch('http://localhost:3000/api/optimize', {
+        method: 'POST',
+        credentials: 'include',
+        body: formData,
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}))
+        throw new Error(err.error || err.detail || `HTTP ${res.status}`)
+      }
+      const data = await res.json()
+      setOptimizerResult(data)
+    } catch (err) {
+      setOptimizerError(err.message || 'Optimization failed')
+    } finally {
+      setOptimizerLoading(false)
+    }
+  }
+
+  const downloadBase64Pdf = (base64, filename) => {
+    const binary = atob(base64)
+    const bytes = new Uint8Array(binary.length)
+    for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i)
+    const blob = new Blob([bytes], { type: 'application/pdf' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
   const [profile, setProfile] = useState({
     name: 'Avery',
     email: 'avery@hireradar.app',
@@ -265,6 +315,96 @@ export default function Settings() {
               </label>
             </div>
           </div>
+        </SectionCard>
+      ) : null}
+
+      {activeTab === 'optimizer' ? (
+        <SectionCard title="ATS Resume Optimizer" description="Paste a job URL and upload your resume to get an ATS-optimized version with a tailored cover letter." icon={Zap}>
+          <form onSubmit={handleOptimize} className="grid gap-4">
+            <label className="space-y-2 text-sm text-text-muted">
+              <span>Job Description URL</span>
+              <input
+                type="url"
+                required
+                value={optimizerJdUrl}
+                onChange={(e) => setOptimizerJdUrl(e.target.value)}
+                placeholder="https://company.com/jobs/software-engineer"
+                className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none focus:border-primary/40"
+              />
+            </label>
+
+            <label className="space-y-2 text-sm text-text-muted">
+              <span>Resume (PDF or DOCX)</span>
+              <input
+                type="file"
+                required
+                accept=".pdf,.docx,.doc"
+                onChange={(e) => setOptimizerFile(e.target.files?.[0] || null)}
+                className="w-full text-sm text-text-muted file:mr-3 file:rounded-2xl file:border file:border-border file:bg-card file:px-4 file:py-2 file:text-sm file:text-text-primary file:transition hover:file:border-primary/40"
+              />
+            </label>
+
+            {optimizerError && (
+              <div className="rounded-2xl border border-danger/30 bg-red-50 px-4 py-3 text-sm text-danger">
+                {optimizerError}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={optimizerLoading}
+              className="rounded-2xl border border-primary/30 bg-primary px-5 py-3 text-sm font-medium text-background transition hover:shadow-accent-glow disabled:opacity-50"
+            >
+              {optimizerLoading ? 'Optimizing… (this takes ~30s)' : 'Optimize Resume'}
+            </button>
+          </form>
+
+          {optimizerResult && (
+            <div className="mt-6 space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="rounded-2xl border border-border bg-card p-4 text-center">
+                  <div className="text-xs uppercase tracking-widest text-text-muted">Original ATS Score</div>
+                  <div className="mt-2 text-4xl font-bold text-text-muted">{optimizerResult.scores?.old_ats_score ?? '—'}</div>
+                </div>
+                <div className="rounded-2xl border border-emerald-500/30 bg-emerald-50 p-4 text-center">
+                  <div className="text-xs uppercase tracking-widest text-emerald-600">Optimized ATS Score</div>
+                  <div className="mt-2 text-4xl font-bold text-emerald-600">{optimizerResult.scores?.new_ats_score ?? '—'}</div>
+                </div>
+              </div>
+
+              {optimizerResult.missing_keywords_found?.length > 0 && (
+                <div>
+                  <div className="mb-2 text-sm text-text-muted">Keywords Added</div>
+                  <div className="flex flex-wrap gap-2">
+                    {optimizerResult.missing_keywords_found.map((kw, i) => (
+                      <span key={i} className="rounded-full border border-primary/30 bg-primary/10 px-3 py-1 font-mono text-xs text-primary">{kw}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-wrap gap-3">
+                {optimizerResult.resume_pdf && (
+                  <button
+                    type="button"
+                    onClick={() => downloadBase64Pdf(optimizerResult.resume_pdf, 'optimized-resume.pdf')}
+                    className="rounded-2xl border border-primary/30 bg-primary px-5 py-2.5 text-sm font-medium text-background transition hover:shadow-accent-glow"
+                  >
+                    ⬇ Download Resume PDF
+                  </button>
+                )}
+                {optimizerResult.cover_letter_pdf && (
+                  <button
+                    type="button"
+                    onClick={() => downloadBase64Pdf(optimizerResult.cover_letter_pdf, 'cover-letter.pdf')}
+                    className="rounded-2xl border border-border bg-card px-5 py-2.5 text-sm text-text-primary transition hover:border-primary/40"
+                  >
+                    ⬇ Download Cover Letter PDF
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </SectionCard>
       ) : null}
 
