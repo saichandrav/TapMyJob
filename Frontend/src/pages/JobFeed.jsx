@@ -366,7 +366,7 @@ export default function JobFeed() {
                   {level}
                 </option>
               ))}
-            </select
+            </select>
           </section>
 
           <section className="space-y-3">
@@ -416,7 +416,7 @@ export default function JobFeed() {
                   {option}
                 </option>
               ))}
-            </select
+            </select>
           </section>
 
           <section className="space-y-3">
