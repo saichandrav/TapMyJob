@@ -369,7 +369,7 @@ export default function JobFeed() {
                     type="button"
                     onClick={() => setLocalDraft((current) => ({ ...current, experienceLevel: active ? '' : level }))}
                     className={`rounded-xl px-3 py-2 text-sm transition ${
-                      active ? 'bg-primary/15 text-primary' : 'text-text-muted hover:bg-white/5 hover:text-text-primary'
+                      active ? 'bg-primary/15 text-primary' : 'text-text-muted hover:bg-gray-100 hover:text-text-primary'
                     }`}
                   >
                     {level}
@@ -626,7 +626,7 @@ export default function JobFeed() {
                       key={job.id}
                       type="button"
                       onClick={() => setSelectedJob(job)}
-                      className="w-full rounded-2xl border border-border bg-background p-3 text-left transition hover:border-primary/40 hover:bg-white/5"
+                      className="w-full rounded-2xl border border-border bg-background p-3 text-left transition hover:border-primary/40 hover:bg-gray-100"
                     >
                       <div className="text-sm text-text-primary">{job.title}</div>
                       <div className="mt-1 text-xs text-text-muted">{job.company} · {job.location}</div>
@@ -739,7 +739,7 @@ export default function JobFeed() {
                       key={job.id}
                       type="button"
                       onClick={() => setSelectedJob(job)}
-                      className="w-full rounded-2xl border border-border bg-background p-3 text-left transition hover:border-primary/40 hover:bg-white/5"
+                      className="w-full rounded-2xl border border-border bg-background p-3 text-left transition hover:border-primary/40 hover:bg-gray-100"
                     >
                       <div className="text-sm text-text-primary">{job.title}</div>
                       <div className="mt-1 text-xs text-text-muted">{job.company} · {job.location}</div>

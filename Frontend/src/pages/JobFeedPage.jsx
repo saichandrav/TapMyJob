@@ -26,7 +26,7 @@ function JobCard({ job, saved, onSelect, onSave }) {
     <button
       type="button"
       onClick={onSelect}
-      className="w-full rounded-3xl border border-border bg-surface/80 p-5 text-left transition hover:border-primary/40 hover:bg-white/5"
+      className="w-full rounded-3xl border border-border bg-surface/80 p-5 text-left transition hover:border-primary/40 hover:bg-gray-100"
     >
       <div className="flex items-start justify-between gap-4">
         <div>
@@ -57,7 +57,7 @@ function JobCard({ job, saved, onSelect, onSave }) {
           event.stopPropagation()
           onSave(job.id)
         }}
-        className="mt-4 rounded-2xl border border-border bg-card px-3 py-2 text-xs text-text-primary transition hover:border-primary/40 hover:bg-white/5"
+        className="mt-4 rounded-2xl border border-border bg-card px-3 py-2 text-xs text-text-primary transition hover:border-primary/40 hover:bg-gray-100"
       >
         {saved ? 'Unsave job' : 'Save job'}
       </button>
@@ -114,7 +114,7 @@ export default function JobFeedPage() {
             <button
               type="button"
               onClick={resetFilters}
-              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100"
             >
               <RotateCcw className="h-4 w-4" />
               Reset

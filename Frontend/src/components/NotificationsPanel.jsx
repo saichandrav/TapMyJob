@@ -68,7 +68,7 @@ function NotificationGroup({ title, items, onItemClick }) {
               onClick={() => onItemClick(notification.id)}
               className={`w-full rounded-3xl border px-4 py-4 text-left transition ${
                 notification.read
-                  ? 'border-border bg-card hover:border-primary/30 hover:bg-white/5'
+                  ? 'border-border bg-card hover:border-primary/30 hover:bg-gray-100'
                   : 'border-violet-500/30 bg-violet-500/10 hover:border-violet-400/40 hover:bg-violet-500/15'
               }`}
               style={{ borderLeftWidth: '3px', borderLeftColor: notification.read ? undefined : '#8b5cf6' }}
@@ -192,7 +192,7 @@ export default function NotificationsPanel({ open, onClose }) {
           <button
             type="button"
             onClick={markAllNotificationsRead}
-            className="inline-flex items-center gap-2 rounded-2xl border border-border bg-background px-3 py-2 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5"
+            className="inline-flex items-center gap-2 rounded-2xl border border-border bg-background px-3 py-2 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100"
           >
             <CheckCheck className="h-4 w-4" />
             Mark all read

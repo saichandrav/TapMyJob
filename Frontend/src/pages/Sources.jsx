@@ -5,10 +5,10 @@ import { platforms as platformCatalog } from '../data/platforms.js'
 import { useSourceStore } from '../store/sourceStore.js'
 
 const statusStyles = {
-  online: 'border-emerald-400/20 bg-emerald-400/10 text-emerald-300',
-  error: 'border-danger/20 bg-danger/10 text-danger',
-  'rate-limited': 'border-warning/20 bg-warning/10 text-warning',
-  syncing: 'border-secondary/20 bg-secondary/10 text-secondary',
+  online: 'border-emerald-500/30 bg-emerald-50 text-emerald-700',
+  error: 'border-danger/30 bg-red-50 text-danger',
+  'rate-limited': 'border-warning/30 bg-amber-50 text-warning',
+  syncing: 'border-secondary/30 bg-teal-50 text-secondary',
 }
 
 const logs = [
@@ -57,7 +57,7 @@ function CardButton({ children, className = '', ...props }) {
   return (
     <button
       type="button"
-      className={`inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5 ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100 ${className}`}
       {...props}
     >
       {children}
@@ -267,7 +267,7 @@ export default function Sources() {
 
       <section className="rounded-[1.75rem] border border-border bg-surface/90 p-6 shadow-card-glow">
         <div className="font-display text-2xl text-text-primary">Scraping Logs</div>
-        <div className="mt-4 rounded-3xl border border-border bg-[#0b0b10] p-4 font-mono text-sm">
+        <div className="mt-4 rounded-3xl border border-border bg-gray-50 p-4 font-mono text-sm">
           <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
             {logs.map((log) => (
               <div key={`${log.timestamp}-${log.message}`} className="flex gap-3 text-xs leading-6">
@@ -275,11 +275,11 @@ export default function Sources() {
                 <span
                   className={
                     log.level === 'success'
-                      ? 'text-emerald-300'
+                      ? 'text-emerald-600'
                       : log.level === 'warn'
-                        ? 'text-warning'
+                        ? 'text-amber-600'
                         : log.level === 'error'
-                          ? 'text-danger'
+                          ? 'text-red-600'
                           : 'text-text-muted'
                   }
                 >

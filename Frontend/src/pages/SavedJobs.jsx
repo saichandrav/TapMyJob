@@ -74,7 +74,7 @@ function exportJobsCsv(jobs) {
 
 function EmptyState() {
   return (
-    <div className="rounded-[1.75rem] border border-dashed border-border bg-[#111118] px-6 py-14 text-center shadow-card-glow">
+    <div className="rounded-[1.75rem] border border-dashed border-border bg-gray-50 px-6 py-14 text-center shadow-card-glow">
       <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-3xl border border-border bg-card text-secondary">
         <Bookmark className="h-9 w-9" />
       </div>
@@ -159,7 +159,7 @@ export default function SavedJobs() {
             </p>
           </div>
 
-          <div className="rounded-full border border-border bg-[#111118] px-4 py-2 text-sm text-text-muted">
+          <div className="rounded-full border border-border bg-gray-100 px-4 py-2 text-sm text-text-muted">
             {savedJobObjects.length} saved total
           </div>
         </div>
@@ -179,7 +179,7 @@ export default function SavedJobs() {
                 className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition ${
                   active
                     ? 'border-primary/40 bg-primary/10 text-primary'
-                    : 'border-border bg-[#111118] text-text-muted hover:border-primary/30 hover:text-text-primary'
+                    : 'border-border bg-gray-50 text-text-muted hover:border-primary/30 hover:text-text-primary'
                 }`}
               >
                 <span>{tab.label}</span>
@@ -216,7 +216,7 @@ export default function SavedJobs() {
               <button
                 type="button"
                 onClick={handleExportCsv}
-                className="inline-flex items-center gap-2 rounded-2xl border border-border bg-[#111118] px-3 py-2 text-sm text-text-primary transition hover:border-primary/30 hover:bg-white/5"
+                className="inline-flex items-center gap-2 rounded-2xl border border-border bg-gray-100 px-3 py-2 text-sm text-text-primary transition hover:border-primary/30 hover:bg-gray-100"
               >
                 <Download className="h-4 w-4" /> Export CSV
               </button>
@@ -229,7 +229,7 @@ export default function SavedJobs() {
             <EmptyState />
           </div>
         ) : visibleJobs.length === 0 ? (
-          <div className="mt-6 rounded-[1.75rem] border border-dashed border-border bg-[#111118] px-6 py-10 text-center text-sm text-text-muted">
+          <div className="mt-6 rounded-[1.75rem] border border-dashed border-border bg-gray-50 px-6 py-10 text-center text-sm text-text-muted">
             No jobs in this tab yet.
           </div>
         ) : (

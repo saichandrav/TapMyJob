@@ -41,13 +41,13 @@ function MiniJobCard({ job, isLast = false }) {
   const sourceLabel = job.platformId === 'linkedin' ? 'LinkedIn' : job.platformId === 'naukri' ? 'Naukri' : 'Indeed'
   const sourceTone =
     job.platformId === 'linkedin'
-      ? 'border-blue-500/30 bg-blue-500/10 text-blue-300'
+      ? 'border-blue-500/40 bg-blue-50 text-blue-600'
       : job.platformId === 'naukri'
-        ? 'border-red-500/30 bg-red-500/10 text-red-300'
-        : 'border-indigo-500/30 bg-indigo-500/10 text-indigo-300'
+        ? 'border-red-500/40 bg-red-50 text-red-600'
+        : 'border-indigo-500/40 bg-indigo-50 text-indigo-600'
 
   return (
-    <div className={`rounded-2xl border border-border bg-surface/90 p-4 transition hover:border-primary/40 hover:bg-white/5 ${!isLast ? 'mb-3' : ''}`}>
+    <div className={`rounded-2xl border border-border bg-surface p-4 transition hover:border-primary/40 hover:bg-gray-50 ${!isLast ? 'mb-3' : ''}`}>
       <div className="flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-linear-to-br from-primary/80 to-secondary/70 text-xs font-semibold text-background">
           {job.company

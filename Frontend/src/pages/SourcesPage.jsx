@@ -28,7 +28,7 @@ export default function SourcesPage() {
           <button
             type="button"
             onClick={refreshAll}
-            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100"
           >
             <RefreshCw className="h-4 w-4" />
             Refresh all

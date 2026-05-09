@@ -159,7 +159,7 @@ function DnDApplicationCard({ application, onOpen }) {
       {...attributes}
       {...listeners}
       onClick={() => onOpen(application)}
-      className="group cursor-grab rounded-2xl border border-border bg-card px-4 py-3 shadow-[0_12px_34px_rgba(0,0,0,0.22)] transition hover:border-primary/30 hover:bg-white/5 active:cursor-grabbing"
+      className="group cursor-grab rounded-2xl border border-border bg-card px-4 py-3 shadow-[0_12px_34px_rgba(0,0,0,0.22)] transition hover:border-primary/30 hover:bg-gray-100 active:cursor-grabbing"
       style={{ borderLeftWidth: '3px', borderLeftColor: getCardAccent(application.stage) }}
     >
       <div className="flex items-start gap-3">
@@ -181,7 +181,7 @@ function DnDApplicationCard({ application, onOpen }) {
             <span className="font-mono">{formatDateLabel(new Date(application.appliedAt))}</span>
           </div>
 
-          <div className="mt-2 rounded-xl border border-border bg-[#111118] px-3 py-2 text-xs text-text-muted">
+          <div className="mt-2 rounded-xl border border-border bg-gray-100 px-3 py-2 text-xs text-text-muted">
             {application.nextAction}
           </div>
         </div>
@@ -196,7 +196,7 @@ function Column({ column, applications, onAdd, onOpen }) {
   return (
     <section
       ref={setNodeRef}
-      className={`flex min-h-136 flex-col rounded-[1.75rem] border border-border bg-[#111118] p-4 transition ${
+      className={`flex min-h-136 flex-col rounded-[1.75rem] border border-border bg-gray-50 p-4 transition ${
         isOver ? 'border-primary/50 shadow-[0_0_0_1px_rgba(139,92,246,0.4)]' : ''
       }`}
     >
@@ -214,7 +214,7 @@ function Column({ column, applications, onAdd, onOpen }) {
       <button
         type="button"
         onClick={() => onAdd(column.id)}
-        className="mt-4 inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5"
+        className="mt-4 inline-flex items-center justify-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100"
       >
         <Plus className="h-4 w-4" /> Add job
       </button>
@@ -278,7 +278,7 @@ function AddApplicationModal({ open, stage, onClose, onCreate }) {
             <input
               value={form.title}
               onChange={(event) => setForm((current) => ({ ...current, title: event.target.value }))}
-              className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
+              className="w-full rounded-2xl border border-border bg-gray-50 px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
               placeholder="Senior React Engineer"
             />
           </label>
@@ -287,7 +287,7 @@ function AddApplicationModal({ open, stage, onClose, onCreate }) {
             <input
               value={form.company}
               onChange={(event) => setForm((current) => ({ ...current, company: event.target.value }))}
-              className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
+              className="w-full rounded-2xl border border-border bg-gray-50 px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
               placeholder="Acme Corp"
             />
           </label>
@@ -296,7 +296,7 @@ function AddApplicationModal({ open, stage, onClose, onCreate }) {
             <input
               value={form.location}
               onChange={(event) => setForm((current) => ({ ...current, location: event.target.value }))}
-              className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
+              className="w-full rounded-2xl border border-border bg-gray-50 px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
               placeholder="Remote"
             />
           </label>
@@ -305,7 +305,7 @@ function AddApplicationModal({ open, stage, onClose, onCreate }) {
             <input
               value={form.nextAction}
               onChange={(event) => setForm((current) => ({ ...current, nextAction: event.target.value }))}
-              className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
+              className="w-full rounded-2xl border border-border bg-gray-50 px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
               placeholder="Follow up with recruiter"
             />
           </label>
@@ -314,13 +314,13 @@ function AddApplicationModal({ open, stage, onClose, onCreate }) {
             <input
               value={form.reminder}
               onChange={(event) => setForm((current) => ({ ...current, reminder: event.target.value }))}
-              className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
+              className="w-full rounded-2xl border border-border bg-gray-50 px-4 py-3 text-text-primary outline-none placeholder:text-text-muted"
               placeholder="Prep for interview"
             />
           </label>
 
           <div className="flex items-center justify-end gap-2 pt-2">
-            <button type="button" onClick={onClose} className="rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary transition hover:bg-white/5">
+            <button type="button" onClick={onClose} className="rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary transition hover:bg-gray-100">
               Cancel
             </button>
             <button type="submit" className="rounded-2xl border border-primary/30 bg-primary px-4 py-3 text-sm font-medium text-background transition hover:shadow-accent-glow">
@@ -464,7 +464,7 @@ export default function Applications() {
             </p>
           </div>
 
-          <div className="rounded-full border border-border bg-[#111118] px-4 py-2 text-sm text-text-muted">
+          <div className="rounded-full border border-border bg-gray-100 px-4 py-2 text-sm text-text-muted">
             {applications.length} applications
           </div>
         </div>
@@ -487,7 +487,7 @@ export default function Applications() {
             ))}
           </div>
 
-          <aside className="hidden rounded-[1.75rem] border border-border bg-[#111118] p-5 shadow-card-glow xl:block xl:sticky xl:top-20 xl:h-[calc(100vh-6rem)] xl:overflow-y-auto">
+          <aside className="hidden rounded-[1.75rem] border border-border bg-surface p-5 shadow-card-glow xl:block xl:sticky xl:top-20 xl:h-[calc(100vh-6rem)] xl:overflow-y-auto">
             {selectedApplication ? (
               <div className="space-y-5">
                 <div className="flex items-start gap-4">
@@ -546,7 +546,7 @@ export default function Applications() {
                     value={selectedApplication.notes}
                     onChange={(event) => updateApplication(selectedApplication.id, { notes: event.target.value })}
                     rows={5}
-                    className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-sm text-text-primary outline-none placeholder:text-text-muted"
+                    className="w-full rounded-2xl border border-border bg-gray-50 px-4 py-3 text-sm text-text-primary outline-none placeholder:text-text-muted"
                     placeholder="Capture notes about the role, interview, or recruiter conversation."
                   />
                 </DrawerSection>

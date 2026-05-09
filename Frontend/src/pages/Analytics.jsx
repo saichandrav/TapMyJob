@@ -17,9 +17,9 @@ import { Component, useEffect, useMemo, useRef, useState } from 'react'
 import { useJobs } from '../hooks/useJobs.js'
 import { useSourceStore } from '../store/sourceStore.js'
 
-const GRID_COLOR = '#2a2a36'
-const AXIS_COLOR = '#8f94a8'
-const PALETTE = ['#8b5cf6', '#34d399', '#6366f1', '#f59e0b', '#06b6d4', '#ec4899', '#14b8a6', '#a855f7']
+const GRID_COLOR = '#E5E7EB'
+const AXIS_COLOR = '#6B7280'
+const PALETTE = ['#8b5cf6', '#10b981', '#6366f1', '#f59e0b', '#06b6d4', '#ec4899', '#14b8a6', '#a855f7']
 
 const RANGE_OPTIONS = [
   { id: '7d', label: '7d', days: 7 },
@@ -69,21 +69,21 @@ function getLocationType(job) {
 
 function valueToHeatColor(value, maxValue) {
   if (value === 0) {
-    return '#181821'
+    return '#F3F4F6'
   }
 
   const ratio = maxValue === 0 ? 0 : value / maxValue
 
-  if (ratio < 0.25) return '#262636'
-  if (ratio < 0.5) return '#3a2f64'
-  if (ratio < 0.75) return '#5b3fb4'
+  if (ratio < 0.25) return '#EDE9FE'
+  if (ratio < 0.5) return '#C4B5FD'
+  if (ratio < 0.75) return '#8B5CF6'
 
-  return '#8b5cf6'
+  return '#6D28D9'
 }
 
 function ChartCard({ title, description, children, className = '', action }) {
   return (
-    <section className={`rounded-[1.75rem] border border-border bg-[#111118] p-5 shadow-[0_20px_60px_rgba(0,0,0,0.32)] ${className}`}>
+    <section className={`rounded-[1.75rem] border border-border bg-surface p-5 shadow-card-glow ${className}`}>
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
           <h2 className="font-display text-xl text-text-primary">{title}</h2>
@@ -145,7 +145,7 @@ function PillToggle({ options, value, onChange }) {
             type="button"
             onClick={() => onChange(option.id)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-              active ? 'bg-primary text-background shadow-md shadow-primary/20' : 'text-text-muted hover:bg-white/5 hover:text-text-primary'
+              active ? 'bg-primary text-background shadow-md shadow-primary/20' : 'text-text-muted hover:bg-gray-100 hover:text-text-primary'
             }`}
           >
             {option.label}
@@ -158,7 +158,7 @@ function PillToggle({ options, value, onChange }) {
 
 function StatChip({ label, value, accent }) {
   return (
-    <div className="rounded-2xl border border-border bg-[#111118] px-4 py-3">
+    <div className="rounded-2xl border border-border bg-gray-50 px-4 py-3">
       <div className="text-xs font-mono text-text-muted">{label}</div>
       <div className="mt-1 flex items-baseline gap-2">
         <div className="font-display text-2xl text-text-primary">{value}</div>
@@ -399,7 +399,7 @@ export default function Analytics() {
       </section>
 
       <ChartCard title="Jobs Found Over Time" description="Multi-line volume by platform across the selected date range." className="overflow-hidden" >
-        <SafeChartContainer className="h-96 rounded-3xl border border-border bg-[#111118] p-4" minHeight={300} resetKey={`line-${rangeId}`}>
+        <SafeChartContainer className="h-96 rounded-3xl border border-border bg-surface p-4" minHeight={300} resetKey={`line-${rangeId}`}>
           <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280} debounce={80}>
             <LineChart data={analytics.lineSeries} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
               <CartesianGrid stroke={GRID_COLOR} strokeDasharray="4 6" />
@@ -427,7 +427,7 @@ export default function Analytics() {
 
       <div className="grid gap-6 xl:grid-cols-3">
         <ChartCard title="Jobs by Platform" description="Color-coded market share for each source.">
-          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={280} resetKey={`platform-${rangeId}`}>
+          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-surface p-4" minHeight={280} resetKey={`platform-${rangeId}`}>
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280} debounce={80}>
               <PieChart>
                 <Tooltip content={<ChartTooltip />} />
@@ -452,7 +452,7 @@ export default function Analytics() {
         </ChartCard>
 
         <ChartCard title="Top Job Titles" description="Horizontal bars ranked by frequency.">
-          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={280} resetKey={`titles-${rangeId}`}>
+          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-surface p-4" minHeight={280} resetKey={`titles-${rangeId}`}>
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280} debounce={80}>
               <BarChart data={analytics.titleCounts} layout="vertical" margin={{ top: 6, right: 18, left: 18, bottom: 6 }}>
                 <CartesianGrid stroke={GRID_COLOR} strokeDasharray="4 6" horizontal={false} />
@@ -471,7 +471,7 @@ export default function Analytics() {
         </ChartCard>
 
         <ChartCard title="Top Companies Hiring" description="Which employers appear most often in the feed.">
-          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={280} resetKey={`companies-${rangeId}`}>
+          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-surface p-4" minHeight={280} resetKey={`companies-${rangeId}`}>
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280} debounce={80}>
               <BarChart data={analytics.companyCounts} layout="vertical" margin={{ top: 6, right: 18, left: 18, bottom: 6 }}>
                 <CartesianGrid stroke={GRID_COLOR} strokeDasharray="4 6" horizontal={false} />
@@ -492,20 +492,20 @@ export default function Analytics() {
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <ChartCard title="Top Skills in Demand" description="Word-cloud style emphasis using scaled font sizes in violet shades.">
-          <div className="min-h-[22rem] rounded-3xl border border-border bg-[#111118] p-5">
+          <div className="min-h-[22rem] rounded-3xl border border-border bg-surface p-5">
             <div className="flex min-h-72 flex-wrap content-center gap-3">
               {analytics.skillCounts.map((skill, index) => {
                 const minFont = 14
                 const maxFont = 34
                 const highest = Math.max(...analytics.skillCounts.map((entry) => entry.value), 1)
                 const size = minFont + ((skill.value - 1) / Math.max(highest - 1, 1)) * (maxFont - minFont)
-                const violetTones = ['#ddd6fe', '#c4b5fd', '#a78bfa', '#8b5cf6', '#7c3aed']
+                const violetTones = ['#4c1d95', '#5b21b6', '#6d28d9', '#7c3aed', '#8b5cf6']
 
                 return (
                   <button
                     key={skill.name}
                     type="button"
-                    className="rounded-full border border-border bg-card px-3 py-2 text-left transition hover:-translate-y-0.5 hover:border-primary/40 hover:bg-white/5"
+                    className="rounded-full border border-border bg-card px-3 py-2 text-left transition hover:-translate-y-0.5 hover:border-primary/40 hover:bg-gray-100"
                     title={`${skill.name}: ${skill.value}`}
                     style={{ fontSize: `${size}px`, color: violetTones[index % violetTones.length] }}
                   >
@@ -518,13 +518,13 @@ export default function Analytics() {
         </ChartCard>
 
         <ChartCard title="Jobs Posted by Day/Hour" description="Heatmap of posting pressure across the week, similar to a contribution graph.">
-          <div className="rounded-3xl border border-border bg-[#111118] p-5">
+          <div className="rounded-3xl border border-border bg-surface p-5">
             <div className="mb-4 flex items-center justify-between gap-3 text-xs font-mono text-text-muted">
               <span>Day of week</span>
               <div className="flex items-center gap-2">
                 {['low', 'mid', 'high'].map((label, index) => (
                   <div key={label} className="flex items-center gap-1">
-                    <span className="h-3 w-3 rounded-sm" style={{ backgroundColor: [valueToHeatColor(0, 1), '#3a2f64', '#8b5cf6'][index] }} />
+                    <span className="h-3 w-3 rounded-sm" style={{ backgroundColor: [valueToHeatColor(0, 1), '#C4B5FD', '#5B21B6'][index] }} />
                     <span>{label}</span>
                   </div>
                 ))}
@@ -562,7 +562,7 @@ export default function Analytics() {
 
       <div className="grid gap-6 xl:grid-cols-2">
         <ChartCard title="Salary Distribution" description="Histogram of salary bands from the current feed.">
-          <SafeChartContainer className="h-[22rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={300} resetKey={`salary-${rangeId}`}>
+          <SafeChartContainer className="h-[22rem] rounded-3xl border border-border bg-surface p-4" minHeight={300} resetKey={`salary-${rangeId}`}>
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={300} debounce={80}>
               <BarChart data={analytics.salaryBins} margin={{ top: 6, right: 16, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke={GRID_COLOR} strokeDasharray="4 6" />
@@ -581,7 +581,7 @@ export default function Analytics() {
         </ChartCard>
 
         <ChartCard title="Remote vs Onsite vs Hybrid" description="Location mix inferred from the current job set.">
-          <SafeChartContainer className="h-[22rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={300} resetKey={`mix-${rangeId}`}>
+          <SafeChartContainer className="h-[22rem] rounded-3xl border border-border bg-surface p-4" minHeight={300} resetKey={`mix-${rangeId}`}>
             <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={300} debounce={80}>
               <PieChart>
                 <Tooltip content={<ChartTooltip />} />

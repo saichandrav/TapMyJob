@@ -36,7 +36,7 @@ function ResultRow({ active, onClick, children, className = '' }) {
       type="button"
       onClick={onClick}
       className={`w-full rounded-2xl border px-4 py-3 text-left transition ${
-        active ? 'border-primary/50 bg-surface' : 'border-border bg-card hover:border-primary/30 hover:bg-white/5'
+        active ? 'border-primary/50 bg-surface' : 'border-border bg-card hover:border-primary/30 hover:bg-gray-100'
       } ${className}`}
     >
       {children}

@@ -31,7 +31,7 @@ function TagInput({ label, value, onChange, placeholder, suggestions = [] }) {
   return (
     <div className="space-y-2">
       <div className="text-sm text-text-muted">{label}</div>
-      <div className="rounded-2xl border border-border bg-[#111118] px-3 py-3">
+      <div className="rounded-2xl border border-border bg-gray-100 px-3 py-3">
         <div className="flex flex-wrap gap-2">
           {value.map((tag) => (
             <button
@@ -80,7 +80,7 @@ function TagInput({ label, value, onChange, placeholder, suggestions = [] }) {
 
 function ToggleRow({ label, description, checked, onChange }) {
   return (
-    <div className="flex items-start justify-between gap-4 rounded-2xl border border-border bg-[#111118] px-4 py-4">
+    <div className="flex items-start justify-between gap-4 rounded-2xl border border-border bg-gray-100 px-4 py-4">
       <div>
         <div className="text-sm font-medium text-text-primary">{label}</div>
         <p className="mt-1 text-sm text-text-muted">{description}</p>
@@ -185,7 +185,7 @@ export default function Settings() {
             <p className="mt-2 max-w-2xl text-sm text-text-muted">Personalize your profile, tune scraping, manage alerts, and set the visual style.</p>
           </div>
 
-          <div className="rounded-full border border-border bg-[#111118] px-4 py-2 text-sm text-text-muted">
+          <div className="rounded-full border border-border bg-gray-100 px-4 py-2 text-sm text-text-muted">
             {activeTabConfig.label} settings
           </div>
         </div>
@@ -201,7 +201,7 @@ export default function Settings() {
                 type="button"
                 onClick={() => setActiveTab(tab.id)}
                 className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition ${
-                  active ? 'border-primary/40 bg-primary/10 text-primary' : 'border-border bg-[#111118] text-text-muted hover:border-primary/30 hover:text-text-primary'
+                  active ? 'border-primary/40 bg-primary/10 text-primary' : 'border-border bg-gray-100 text-text-muted hover:border-primary/30 hover:text-text-primary'
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -215,11 +215,11 @@ export default function Settings() {
       {activeTab === 'profile' ? (
         <SectionCard title="Profile" description="Shape the profile used for matching and personalization." icon={WandSparkles}>
           <div className="grid gap-5 lg:grid-cols-[220px_minmax(0,1fr)]">
-            <div className="rounded-[1.75rem] border border-border bg-[#111118] p-5 text-center">
+            <div className="rounded-[1.75rem] border border-border bg-gray-100 p-5 text-center">
               <div className="mx-auto flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-border bg-card text-2xl font-semibold text-text-primary">
                 {avatarPreview ? <img src={avatarPreview} alt="Avatar preview" className="h-full w-full object-cover" /> : profile.name.slice(0, 2).toUpperCase()}
               </div>
-              <label className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-border bg-card px-4 py-2 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5">
+              <label className="mt-4 inline-flex cursor-pointer items-center gap-2 rounded-2xl border border-border bg-card px-4 py-2 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100">
                 <Upload className="h-4 w-4" /> Upload avatar
                 <input
                   type="file"
@@ -234,11 +234,11 @@ export default function Settings() {
             <div className="grid gap-4 md:grid-cols-2">
               <label className="space-y-2 text-sm text-text-muted">
                 <span>Name</span>
-                <input value={profile.name} onChange={(event) => setProfile((current) => ({ ...current, name: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
+                <input value={profile.name} onChange={(event) => setProfile((current) => ({ ...current, name: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
               </label>
               <label className="space-y-2 text-sm text-text-muted">
                 <span>Email</span>
-                <input value={profile.email} onChange={(event) => setProfile((current) => ({ ...current, email: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
+                <input value={profile.email} onChange={(event) => setProfile((current) => ({ ...current, email: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
               </label>
 
               <div className="md:col-span-2">
@@ -250,22 +250,22 @@ export default function Settings() {
 
               <label className="space-y-2 text-sm text-text-muted">
                 <span>Salary expectation min (LPA)</span>
-                <input type="number" value={profile.salaryMin} onChange={(event) => setProfile((current) => ({ ...current, salaryMin: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
+                <input type="number" value={profile.salaryMin} onChange={(event) => setProfile((current) => ({ ...current, salaryMin: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
               </label>
               <label className="space-y-2 text-sm text-text-muted">
                 <span>Salary expectation max (LPA)</span>
-                <input type="number" value={profile.salaryMax} onChange={(event) => setProfile((current) => ({ ...current, salaryMax: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
+                <input type="number" value={profile.salaryMax} onChange={(event) => setProfile((current) => ({ ...current, salaryMax: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
               </label>
 
               <label className="space-y-2 text-sm text-text-muted">
                 <span>Experience level</span>
-                <select value={profile.experience} onChange={(event) => setProfile((current) => ({ ...current, experience: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none">
+                <select value={profile.experience} onChange={(event) => setProfile((current) => ({ ...current, experience: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none">
                   {experienceOptions.map((option) => <option key={option}>{option}</option>)}
                 </select>
               </label>
               <label className="space-y-2 text-sm text-text-muted">
                 <span>Job type preferences</span>
-                <select multiple value={profile.jobTypes} onChange={(event) => setProfile((current) => ({ ...current, jobTypes: [...event.target.selectedOptions].map((option) => option.value) }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none">
+                <select multiple value={profile.jobTypes} onChange={(event) => setProfile((current) => ({ ...current, jobTypes: [...event.target.selectedOptions].map((option) => option.value) }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none">
                   {jobTypes.map((option) => <option key={option}>{option}</option>)}
                 </select>
               </label>
@@ -279,7 +279,7 @@ export default function Settings() {
           <div className="grid gap-4 md:grid-cols-2">
             <label className="space-y-2 text-sm text-text-muted">
               <span>Default scraping frequency</span>
-              <select value={scraping.frequency} onChange={(event) => setScraping((current) => ({ ...current, frequency: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none">
+              <select value={scraping.frequency} onChange={(event) => setScraping((current) => ({ ...current, frequency: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none">
                 <option value="5">Every 5 minutes</option>
                 <option value="15">Every 15 minutes</option>
                 <option value="30">Every 30 minutes</option>
@@ -288,20 +288,20 @@ export default function Settings() {
             </label>
             <label className="space-y-2 text-sm text-text-muted">
               <span>Concurrent scraper limit</span>
-              <input type="number" value={scraping.concurrentLimit} onChange={(event) => setScraping((current) => ({ ...current, concurrentLimit: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
+              <input type="number" value={scraping.concurrentLimit} onChange={(event) => setScraping((current) => ({ ...current, concurrentLimit: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
             </label>
             <label className="space-y-2 text-sm text-text-muted">
               <span>Rate limiting settings</span>
-              <input type="number" value={scraping.rateLimit} onChange={(event) => setScraping((current) => ({ ...current, rateLimit: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
+              <input type="number" value={scraping.rateLimit} onChange={(event) => setScraping((current) => ({ ...current, rateLimit: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
             </label>
             <ToggleRow label="User agent rotation" description="Rotate headers to reduce blocking and fingerprinting." checked={scraping.userAgentRotation} onChange={(checked) => setScraping((current) => ({ ...current, userAgentRotation: checked }))} />
             <label className="space-y-2 text-sm text-text-muted md:col-span-2">
               <span>Proxy settings</span>
               <div className="grid gap-3 md:grid-cols-4">
-                <input placeholder="Host" value={scraping.proxyHost} onChange={(event) => setScraping((current) => ({ ...current, proxyHost: event.target.value }))} className="rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
-                <input placeholder="Port" value={scraping.proxyPort} onChange={(event) => setScraping((current) => ({ ...current, proxyPort: event.target.value }))} className="rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
-                <input placeholder="Username" value={scraping.proxyUsername} onChange={(event) => setScraping((current) => ({ ...current, proxyUsername: event.target.value }))} className="rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
-                <input placeholder="Password" type="password" value={scraping.proxyPassword} onChange={(event) => setScraping((current) => ({ ...current, proxyPassword: event.target.value }))} className="rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none" />
+                <input placeholder="Host" value={scraping.proxyHost} onChange={(event) => setScraping((current) => ({ ...current, proxyHost: event.target.value }))} className="rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
+                <input placeholder="Port" value={scraping.proxyPort} onChange={(event) => setScraping((current) => ({ ...current, proxyPort: event.target.value }))} className="rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
+                <input placeholder="Username" value={scraping.proxyUsername} onChange={(event) => setScraping((current) => ({ ...current, proxyUsername: event.target.value }))} className="rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
+                <input placeholder="Password" type="password" value={scraping.proxyPassword} onChange={(event) => setScraping((current) => ({ ...current, proxyPassword: event.target.value }))} className="rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none" />
               </div>
             </label>
           </div>
@@ -316,7 +316,7 @@ export default function Settings() {
 
             <label className="block space-y-2 text-sm text-text-muted">
               <span>Alert conditions</span>
-              <div className="rounded-2xl border border-border bg-[#111118] px-4 py-3">
+              <div className="rounded-2xl border border-border bg-gray-100 px-4 py-3">
                 <div className="flex items-center gap-2 text-text-primary">
                   Notify when
                   <input type="number" min="1" value={alerts.newJobThreshold} onChange={(event) => setAlerts((current) => ({ ...current, newJobThreshold: event.target.value }))} className="w-20 rounded-xl border border-border bg-card px-3 py-2 text-center text-text-primary outline-none" />
@@ -336,7 +336,7 @@ export default function Settings() {
           <div className="grid gap-5 md:grid-cols-2">
             <label className="space-y-2 text-sm text-text-muted">
               <span>Theme</span>
-              <select value={appearance.theme} onChange={(event) => setAppearance((current) => ({ ...current, theme: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none">
+              <select value={appearance.theme} onChange={(event) => setAppearance((current) => ({ ...current, theme: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none">
                 <option value="dark">Dark</option>
                 <option value="light">Light</option>
                 <option value="system">System</option>
@@ -345,7 +345,7 @@ export default function Settings() {
 
             <label className="space-y-2 text-sm text-text-muted">
               <span>Font size preference</span>
-              <select value={appearance.fontSize} onChange={(event) => setAppearance((current) => ({ ...current, fontSize: event.target.value }))} className="w-full rounded-2xl border border-border bg-[#111118] px-4 py-3 text-text-primary outline-none">
+              <select value={appearance.fontSize} onChange={(event) => setAppearance((current) => ({ ...current, fontSize: event.target.value }))} className="w-full rounded-2xl border border-border bg-gray-100 px-4 py-3 text-text-primary outline-none">
                 <option value="small">Small</option>
                 <option value="medium">Medium</option>
                 <option value="large">Large</option>
@@ -356,7 +356,7 @@ export default function Settings() {
 
             <div className="space-y-2 text-sm text-text-muted">
               <div>Accent color picker</div>
-              <div className="flex flex-wrap gap-3 rounded-2xl border border-border bg-[#111118] p-4">
+              <div className="flex flex-wrap gap-3 rounded-2xl border border-border bg-gray-100 p-4">
                 {accentOptions.map((color) => (
                   <ColorSwatch key={color} color={color} active={appearance.accent === color} onClick={() => setAppearance((current) => ({ ...current, accent: color }))} />
                 ))}
@@ -366,7 +366,7 @@ export default function Settings() {
         </SectionCard>
       ) : null}
 
-      <section className="rounded-[1.75rem] border border-border bg-[#111118] p-5 text-sm text-text-muted">
+      <section className="rounded-[1.75rem] border border-border bg-gray-100 p-5 text-sm text-text-muted">
         <div className="flex items-center gap-3 text-text-primary">
           <Sparkles className="h-5 w-5 text-secondary" />
           Settings are stored locally in this prototype.

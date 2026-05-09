@@ -58,7 +58,7 @@ function RadarMark() {
 function ShellButton({ className = '', children, ...props }) {
   return (
     <button
-      className={`flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 text-sm text-text-primary transition hover:border-primary/50 hover:bg-white/5 ${className}`}
+      className={`flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 text-sm text-text-primary transition hover:border-primary/50 hover:bg-gray-100 ${className}`}
       {...props}
     >
       {children}
@@ -158,7 +158,7 @@ export default function AppShell({ pageTitle, children }) {
                     onClick={() => setActivePage(item.id)}
                     className={`group relative flex w-full items-center rounded-2xl border px-3 py-3 text-sm font-medium transition ${
                       isCollapsed ? 'justify-center' : 'gap-3'
-                    } ${isActive ? 'border-primary/40 bg-primary/10 text-text-primary' : 'border-transparent text-text-muted hover:border-border hover:bg-white/5 hover:text-text-primary'}`}
+                    } ${isActive ? 'border-primary/40 bg-primary/10 text-text-primary' : 'border-transparent text-text-muted hover:border-border hover:bg-gray-100 hover:text-text-primary'}`}
                   >
                     <Icon className={`h-5 w-5 shrink-0 transition ${isActive ? 'text-primary' : 'text-text-muted group-hover:text-primary'}`} />
                     {!isCollapsed ? <span className="truncate">{item.label}</span> : null}
@@ -177,7 +177,7 @@ export default function AppShell({ pageTitle, children }) {
             <button
               type="button"
               onClick={toggleSidebar}
-              className={`flex w-full items-center rounded-2xl border border-border bg-card px-3 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5 ${
+              className={`flex w-full items-center rounded-2xl border border-border bg-card px-3 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100 ${
                 sidebarOpen ? 'justify-between' : 'justify-center'
               }`}
             >
@@ -190,7 +190,7 @@ export default function AppShell({ pageTitle, children }) {
           </div>
         </aside>
 
-        <div className={`fixed inset-0 z-40 bg-black/65 backdrop-blur-sm transition-opacity lg:hidden ${mobileSidebarOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}`} onClick={() => setMobileSidebarOpen(false)} />
+        <div className={`fixed inset-0 z-40 bg-gray-900/40 backdrop-blur-sm transition-opacity lg:hidden ${mobileSidebarOpen ? 'opacity-100' : 'pointer-events-none opacity-0'}`} onClick={() => setMobileSidebarOpen(false)} />
 
         <aside
           className={`fixed inset-y-0 left-0 z-50 flex w-60 flex-col border-r border-border bg-surface/98 shadow-2xl backdrop-blur-xl transition-transform duration-300 lg:hidden ${
@@ -229,7 +229,7 @@ export default function AppShell({ pageTitle, children }) {
                     type="button"
                     onClick={() => setActivePage(item.id)}
                     className={`flex w-full items-center gap-3 rounded-2xl border px-3 py-3 text-sm font-medium transition ${
-                      isActive ? 'border-primary/40 bg-primary/10 text-text-primary' : 'border-transparent text-text-muted hover:border-border hover:bg-white/5 hover:text-text-primary'
+                      isActive ? 'border-primary/40 bg-primary/10 text-text-primary' : 'border-transparent text-text-muted hover:border-border hover:bg-gray-100 hover:text-text-primary'
                     }`}
                   >
                     <Icon className={`h-5 w-5 shrink-0 transition ${isActive ? 'text-primary' : 'text-text-muted'}`} />
@@ -244,7 +244,7 @@ export default function AppShell({ pageTitle, children }) {
             <button
               type="button"
               onClick={() => setMobileSidebarOpen(false)}
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card px-3 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5"
+              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card px-3 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100"
             >
               <PanelLeftClose className="h-5 w-5" />
               Close drawer
@@ -268,7 +268,7 @@ export default function AppShell({ pageTitle, children }) {
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
-                className="hidden min-w-[16rem] items-center gap-3 rounded-2xl border border-border bg-card px-4 py-2 text-left text-sm text-text-muted transition hover:border-primary/40 hover:bg-white/5 md:flex"
+                className="hidden min-w-[16rem] items-center gap-3 rounded-2xl border border-border bg-card px-4 py-2 text-left text-sm text-text-muted transition hover:border-primary/40 hover:bg-gray-100 md:flex"
               >
                 <Search className="h-4 w-4 shrink-0 text-text-muted" />
                 <span className="flex-1">Search jobs, companies, or sources</span>
@@ -278,7 +278,7 @@ export default function AppShell({ pageTitle, children }) {
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
-                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-white/5 md:hidden"
+                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-gray-100 md:hidden"
                 aria-label="Search"
               >
                 <Search className="h-4 w-4" />
@@ -287,7 +287,7 @@ export default function AppShell({ pageTitle, children }) {
               <button
                 type="button"
                 onClick={() => setNotificationsOpen(true)}
-                className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-white/5"
+                className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-gray-100"
                 aria-label="Notifications"
               >
                 <Bell className="h-4 w-4" />
@@ -297,7 +297,7 @@ export default function AppShell({ pageTitle, children }) {
               <button
                 type="button"
                 onClick={() => setNotificationsOpen(true)}
-                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-white/5 md:hidden"
+                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-gray-100 md:hidden"
                 aria-label="Notifications"
               >
                 <Bell className="h-4 w-4" />
@@ -307,7 +307,7 @@ export default function AppShell({ pageTitle, children }) {
                 <button
                   type="button"
                   onClick={() => setDropdownOpen((current) => !current)}
-                  className="flex items-center gap-3 rounded-2xl border border-border bg-card px-2 py-1.5 transition hover:border-primary/40 hover:bg-white/5"
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card px-2 py-1.5 transition hover:border-primary/40 hover:bg-gray-100"
                 >
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-br from-primary to-secondary text-sm font-semibold text-background">
                     AV
@@ -321,13 +321,13 @@ export default function AppShell({ pageTitle, children }) {
 
                 {dropdownOpen ? (
                   <div className="absolute right-0 mt-3 w-56 rounded-2xl border border-border bg-surface p-2 shadow-card-glow">
-                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-white/5 hover:text-text-primary">
+                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-text-primary">
                       Profile
                     </button>
-                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-white/5 hover:text-text-primary">
+                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-text-primary">
                       Preferences
                     </button>
-                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-white/5 hover:text-text-primary">
+                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-text-primary">
                       Sign out
                     </button>
                   </div>

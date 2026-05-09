@@ -53,7 +53,7 @@ function RadarMark() {
 function AppShellButton({ className = '', children, ...props }) {
   return (
     <button
-      className={`flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 text-sm text-text-primary transition hover:border-primary/50 hover:bg-white/5 ${className}`}
+      className={`flex items-center gap-2 rounded-2xl border border-border bg-card px-3 py-2 text-sm text-text-primary transition hover:border-primary/50 hover:bg-gray-100 ${className}`}
       {...props}
     >
       {children}
@@ -149,7 +149,7 @@ export function AppLayout({ pageTitle, children }) {
                   <button
                     key={item.label}
                     title={isCollapsed ? item.label : undefined}
-                    className={`group relative flex w-full items-center rounded-2xl border border-transparent px-3 py-3 text-sm font-medium text-text-muted transition hover:border-border hover:bg-white/5 hover:text-text-primary ${
+                    className={`group relative flex w-full items-center rounded-2xl border border-transparent px-3 py-3 text-sm font-medium text-text-muted transition hover:border-border hover:bg-gray-100 hover:text-text-primary ${
                       isCollapsed ? 'justify-center' : 'gap-3'
                     }`}
                   >
@@ -170,7 +170,7 @@ export function AppLayout({ pageTitle, children }) {
             <button
               type="button"
               onClick={() => setSidebarCollapsed((current) => !current)}
-              className={`flex w-full items-center rounded-2xl border border-border bg-card px-3 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5 ${
+              className={`flex w-full items-center rounded-2xl border border-border bg-card px-3 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100 ${
                 sidebarCollapsed ? 'justify-center' : 'justify-between'
               }`}
             >
@@ -218,7 +218,7 @@ export function AppLayout({ pageTitle, children }) {
                 return (
                   <button
                     key={item.label}
-                    className="flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-3 text-sm font-medium text-text-muted transition hover:border-border hover:bg-white/5 hover:text-text-primary"
+                    className="flex w-full items-center gap-3 rounded-2xl border border-transparent px-3 py-3 text-sm font-medium text-text-muted transition hover:border-border hover:bg-gray-100 hover:text-text-primary"
                   >
                     <Icon className="h-5 w-5 shrink-0 text-text-muted transition group-hover:text-primary" />
                     <span>{item.label}</span>
@@ -232,7 +232,7 @@ export function AppLayout({ pageTitle, children }) {
             <button
               type="button"
               onClick={() => setMobileSidebarOpen(false)}
-              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card px-3 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-white/5"
+              className="flex w-full items-center justify-center gap-3 rounded-2xl border border-border bg-card px-3 py-3 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100"
             >
               <PanelLeftClose className="h-5 w-5" />
               Close drawer
@@ -256,7 +256,7 @@ export function AppLayout({ pageTitle, children }) {
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
-                className="hidden min-w-[16rem] items-center gap-3 rounded-2xl border border-border bg-card px-4 py-2 text-left text-sm text-text-muted transition hover:border-primary/40 hover:bg-white/5 md:flex"
+                className="hidden min-w-[16rem] items-center gap-3 rounded-2xl border border-border bg-card px-4 py-2 text-left text-sm text-text-muted transition hover:border-primary/40 hover:bg-gray-100 md:flex"
               >
                 <Search className="h-4 w-4 shrink-0 text-text-muted" />
                 <span className="flex-1">Search jobs, companies, or sources</span>
@@ -266,7 +266,7 @@ export function AppLayout({ pageTitle, children }) {
               <button
                 type="button"
                 onClick={() => setSearchOpen(true)}
-                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-white/5 md:hidden"
+                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-gray-100 md:hidden"
                 aria-label="Search"
               >
                 <Search className="h-4 w-4" />
@@ -274,7 +274,7 @@ export function AppLayout({ pageTitle, children }) {
 
               <button
                 type="button"
-                className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-white/5"
+                className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-gray-100"
                 aria-label="Notifications"
               >
                 <Bell className="h-4 w-4" />
@@ -285,7 +285,7 @@ export function AppLayout({ pageTitle, children }) {
                 <button
                   type="button"
                   onClick={() => setDropdownOpen((current) => !current)}
-                  className="flex items-center gap-3 rounded-2xl border border-border bg-card px-2 py-1.5 transition hover:border-primary/40 hover:bg-white/5"
+                  className="flex items-center gap-3 rounded-2xl border border-border bg-card px-2 py-1.5 transition hover:border-primary/40 hover:bg-gray-100"
                 >
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-linear-to-br from-primary to-secondary text-sm font-semibold text-background">
                     AV
@@ -299,13 +299,13 @@ export function AppLayout({ pageTitle, children }) {
 
                 {dropdownOpen ? (
                   <div className="absolute right-0 mt-3 w-56 rounded-2xl border border-border bg-surface p-2 shadow-card-glow">
-                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-white/5 hover:text-text-primary">
+                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-text-primary">
                       Profile
                     </button>
-                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-white/5 hover:text-text-primary">
+                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-text-primary">
                       Preferences
                     </button>
-                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-white/5 hover:text-text-primary">
+                    <button className="flex w-full items-center rounded-xl px-3 py-2 text-left text-sm text-text-muted transition hover:bg-gray-100 hover:text-text-primary">
                       Sign out
                     </button>
                   </div>
@@ -352,7 +352,7 @@ export function AppLayout({ pageTitle, children }) {
                   <button
                     key={item}
                     type="button"
-                    className="rounded-2xl border border-border bg-card px-4 py-3 text-left text-sm text-text-muted transition hover:border-primary/40 hover:bg-white/5 hover:text-text-primary"
+                    className="rounded-2xl border border-border bg-card px-4 py-3 text-left text-sm text-text-muted transition hover:border-primary/40 hover:bg-gray-100 hover:text-text-primary"
                   >
                     {item}
                   </button>
