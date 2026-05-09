@@ -1,10 +1,10 @@
 import { useMemo, useState } from 'react'
-import { Bell, CloudCog, Mail, Palette, Sparkles, Upload, WandSparkles } from 'lucide-react'
+import { CloudCog, Palette, Sparkles, Upload, WandSparkles } from 'lucide-react'
 
 const tabs = [
   { id: 'profile', label: 'Profile', icon: WandSparkles },
   { id: 'scraping', label: 'Scraping', icon: CloudCog },
-  { id: 'alerts', label: 'Alerts', icon: Bell },
+
   { id: 'appearance', label: 'Appearance', icon: Palette },
 ]
 
@@ -149,13 +149,7 @@ export default function Settings() {
     proxyUsername: '',
     proxyPassword: '',
   })
-  const [alerts, setAlerts] = useState({
-    email: true,
-    browser: true,
-    newJobThreshold: '10',
-    keywords: ['React', 'TypeScript', 'Remote'],
-    companies: ['Google', 'Razorpay'],
-  })
+
   const [appearance, setAppearance] = useState({
     theme: 'dark',
     accent: '#8b5cf6',
@@ -182,7 +176,7 @@ export default function Settings() {
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <div className="font-display text-3xl text-text-primary">Settings</div>
-            <p className="mt-2 max-w-2xl text-sm text-text-muted">Personalize your profile, tune scraping, manage alerts, and set the visual style.</p>
+            <p className="mt-2 max-w-2xl text-sm text-text-muted">Personalize your profile, tune scraping, and set the visual style.</p>
           </div>
 
           <div className="rounded-full border border-border bg-gray-100 px-4 py-2 text-sm text-text-muted">
@@ -308,28 +302,6 @@ export default function Settings() {
         </SectionCard>
       ) : null}
 
-      {activeTab === 'alerts' ? (
-        <SectionCard title="Alerts" description="Control when and how the system nudges you." icon={Mail}>
-          <div className="space-y-4">
-            <ToggleRow label="Email notifications" description="Send matching alerts and status changes to your inbox." checked={alerts.email} onChange={(checked) => setAlerts((current) => ({ ...current, email: checked }))} />
-            <ToggleRow label="Browser notifications" description="Show desktop notifications for new matches and failures." checked={alerts.browser} onChange={(checked) => setAlerts((current) => ({ ...current, browser: checked }))} />
-
-            <label className="block space-y-2 text-sm text-text-muted">
-              <span>Alert conditions</span>
-              <div className="rounded-2xl border border-border bg-gray-100 px-4 py-3">
-                <div className="flex items-center gap-2 text-text-primary">
-                  Notify when
-                  <input type="number" min="1" value={alerts.newJobThreshold} onChange={(event) => setAlerts((current) => ({ ...current, newJobThreshold: event.target.value }))} className="w-20 rounded-xl border border-border bg-card px-3 py-2 text-center text-text-primary outline-none" />
-                  new jobs match
-                </div>
-              </div>
-            </label>
-
-            <TagInput label="Keywords to watch" value={alerts.keywords} onChange={(keywords) => setAlerts((current) => ({ ...current, keywords }))} placeholder="Add keyword" suggestions={roleSuggestions} />
-            <TagInput label="Companies to watch" value={alerts.companies} onChange={(companies) => setAlerts((current) => ({ ...current, companies }))} placeholder="Add company" suggestions={companySuggestions} />
-          </div>
-        </SectionCard>
-      ) : null}
 
       {activeTab === 'appearance' ? (
         <SectionCard title="Appearance" description="Control the visual style of the workspace." icon={Palette}>

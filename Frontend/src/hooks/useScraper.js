@@ -9,7 +9,7 @@ export function useScraper(intervalMs = 8000) {
   const setSyncStatus = useSourceStore((state) => state.setSyncStatus)
   const setLastSynced = useSourceStore((state) => state.setLastSynced)
   const updateSource = useSourceStore((state) => state.updateSource)
-  const addNotification = useUIStore((state) => state.addNotification)
+
   const tickRef = useRef(0)
   const sourcesRef = useRef(sources)
 
@@ -35,11 +35,7 @@ export function useScraper(intervalMs = 8000) {
       })
       setSyncStatus(nextStatus)
       setLastSynced(nextLastSynced)
-      addNotification({
-        type: nextStatus === 'syncing' ? 'info' : 'success',
-        title: `${source.name} refreshed`,
-        message: `${source.jobCount} jobs checked from ${source.name.toLowerCase()}.`,
-      })
+
 
       tickRef.current += 1
     }
@@ -48,7 +44,7 @@ export function useScraper(intervalMs = 8000) {
     const timer = window.setInterval(syncNow, intervalMs)
 
     return () => window.clearInterval(timer)
-  }, [addNotification, intervalMs, setLastSynced, setSyncStatus, updateSource])
+  }, [intervalMs, setLastSynced, setSyncStatus, updateSource])
 
   return { sources }
 }

@@ -1,6 +1,5 @@
 import {
   BarChart2,
-  Bell,
   Bookmark,
   ChevronDown,
   Globe,
@@ -15,7 +14,7 @@ import {
   X,
 } from 'lucide-react'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
-import NotificationsPanel from '../components/NotificationsPanel.jsx'
+
 import { useSourceStore } from '../store/sourceStore.js'
 import { useUIStore } from '../store/uiStore.js'
 import { useKeyboard } from '../hooks/useKeyboard.js'
@@ -70,13 +69,10 @@ export default function AppShell({ pageTitle, children }) {
   const sidebarOpen = useUIStore((state) => state.sidebarOpen)
   const mobileSidebarOpen = useUIStore((state) => state.mobileSidebarOpen)
   const searchOpen = useUIStore((state) => state.searchOpen)
-  const notificationsOpen = useUIStore((state) => state.notificationsOpen)
   const activePage = useUIStore((state) => state.activePage)
-  const notifications = useUIStore((state) => state.notifications)
   const setSidebarOpen = useUIStore((state) => state.setSidebarOpen)
   const setMobileSidebarOpen = useUIStore((state) => state.setMobileSidebarOpen)
   const setSearchOpen = useUIStore((state) => state.setSearchOpen)
-  const setNotificationsOpen = useUIStore((state) => state.setNotificationsOpen)
   const setActivePage = useUIStore((state) => state.setActivePage)
   const toggleSidebar = useUIStore((state) => state.toggleSidebar)
   const lastSynced = useSourceStore((state) => state.lastSynced)
@@ -87,7 +83,6 @@ export default function AppShell({ pageTitle, children }) {
     onCommandK: () => setSearchOpen(true),
     onEscape: () => {
       setSearchOpen(false)
-      setNotificationsOpen(false)
       setMobileSidebarOpen(false)
       setDropdownOpen(false)
     },
@@ -113,16 +108,13 @@ export default function AppShell({ pageTitle, children }) {
     sidebarOpen,
     mobileSidebarOpen,
     searchOpen,
-    notificationsOpen,
-    notifications,
     setSidebarOpen,
     toggleSidebar,
     setMobileSidebarOpen,
     setSearchOpen,
-    setNotificationsOpen,
     setActivePage,
   }
-  const notificationCount = notifications.filter((notification) => !notification.read).length
+
 
   return (
     <SidebarContext.Provider value={sidebarContextValue}>
@@ -284,24 +276,6 @@ export default function AppShell({ pageTitle, children }) {
                 <Search className="h-4 w-4" />
               </button>
 
-              <button
-                type="button"
-                onClick={() => setNotificationsOpen(true)}
-                className="relative flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-gray-100"
-                aria-label="Notifications"
-              >
-                <Bell className="h-4 w-4" />
-                {notificationCount > 0 ? <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-danger" /> : null}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setNotificationsOpen(true)}
-                className="flex h-10 w-10 items-center justify-center rounded-2xl border border-border bg-card text-text-muted transition hover:border-primary/40 hover:bg-gray-100 md:hidden"
-                aria-label="Notifications"
-              >
-                <Bell className="h-4 w-4" />
-              </button>
 
               <div className="relative" ref={dropdownRef}>
                 <button
@@ -343,14 +317,12 @@ export default function AppShell({ pageTitle, children }) {
           <main className="px-4 py-6 sm:px-6">
             <div className="mb-6 flex items-center justify-between gap-4 lg:hidden">
               <div className="font-mono text-sm text-text-muted">Last synced {lastSynced}</div>
-              <div className="rounded-full border border-border bg-card px-3 py-1 text-xs text-text-muted">{notificationCount} alerts</div>
             </div>
             {children}
           </main>
         </div>
 
         <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />
-        <NotificationsPanel open={notificationsOpen} onClose={() => setNotificationsOpen(false)} />
       </div>
     </SidebarContext.Provider>
   )
