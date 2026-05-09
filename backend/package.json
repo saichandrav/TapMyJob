@@ -1,0 +1,31 @@
+{
+  "name": "tapmyjob-backend",
+  "version": "1.0.0",
+  "description": "TapMyJob Node.js/Express backend",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "jest --runInBand"
+  },
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.16.0",
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "morgan": "^1.10.1",
+    "multer": "^2.1.1",
+    "nodemailer": "^8.0.7",
+    "node-fetch": "^3.3.2",
+    "pdf2json": "^4.0.3",
+    "python-shell": "^5.0.0"
+  },
+  "devDependencies": {
+    "fast-check": "^3.23.2",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  }
+}
