@@ -108,54 +108,6 @@ export default function SearchModal({ open, onClose }) {
   }, [onClose, open])
 
   useEffect(() => {
-    if (!open) {
-      return
-    }
-
-    const onKeyDown = (event) => {
-      if (!mounted) {
-        return
-      }
-
-      const key = event.key.toLowerCase()
-      const resultsLength = flattenedResults.length
-
-      if (key === 'escape') {
-        event.preventDefault()
-        onClose()
-        return
-      }
-
-      if (key === 'arrowdown') {
-        event.preventDefault()
-        setActiveIndex((current) => (resultsLength === 0 ? 0 : (current + 1) % resultsLength))
-        return
-      }
-
-      if (key === 'arrowup') {
-        event.preventDefault()
-        setActiveIndex((current) => (resultsLength === 0 ? 0 : (current - 1 + resultsLength) % resultsLength))
-        return
-      }
-
-      if (key === 'enter') {
-        event.preventDefault()
-        const activeResult = flattenedResults[activeIndex]
-
-        if (activeResult) {
-          handleSelectResult(activeResult)
-        } else if (query.trim()) {
-          commitSearch(query.trim())
-        }
-      }
-    }
-
-    window.addEventListener('keydown', onKeyDown)
-
-    return () => window.removeEventListener('keydown', onKeyDown)
-  }, [activeIndex, flattenedResults, mounted, onClose, open, query])
-
-  useEffect(() => {
     if (open) {
       inputRef.current?.focus()
     }
@@ -271,6 +223,54 @@ export default function SearchModal({ open, onClose }) {
       setActivePage('job-feed')
     }
   }
+
+  useEffect(() => {
+    if (!open) {
+      return
+    }
+
+    const onKeyDown = (event) => {
+      if (!mounted) {
+        return
+      }
+
+      const key = event.key.toLowerCase()
+      const resultsLength = flattenedResults.length
+
+      if (key === 'escape') {
+        event.preventDefault()
+        onClose()
+        return
+      }
+
+      if (key === 'arrowdown') {
+        event.preventDefault()
+        setActiveIndex((current) => (resultsLength === 0 ? 0 : (current + 1) % resultsLength))
+        return
+      }
+
+      if (key === 'arrowup') {
+        event.preventDefault()
+        setActiveIndex((current) => (resultsLength === 0 ? 0 : (current - 1 + resultsLength) % resultsLength))
+        return
+      }
+
+      if (key === 'enter') {
+        event.preventDefault()
+        const activeResult = flattenedResults[activeIndex]
+
+        if (activeResult) {
+          handleSelectResult(activeResult)
+        } else if (query.trim()) {
+          commitSearch(query.trim())
+        }
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [activeIndex, flattenedResults, handleSelectResult, mounted, onClose, open, query])
 
   if (!mounted) {
     return null

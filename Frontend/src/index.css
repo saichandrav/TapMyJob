@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@layer base {
+	:root {
+		color-scheme: dark;
+	}
+
+	html {
+		background: #0A0A0F;
+	}
+
+	body {
+		min-height: 100vh;
+		margin: 0;
+		font-family: 'Space Grotesk', sans-serif;
+		background:
+			radial-gradient(circle at top, rgba(108, 99, 255, 0.08), transparent 32%),
+			linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+			linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+			#0A0A0F;
+		background-size: auto, 28px 28px, 28px 28px, auto;
+		color: #F0F0F5;
+		text-rendering: geometricPrecision;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	::selection {
+		background: rgba(108, 99, 255, 0.35);
+		color: #F0F0F5;
+	}
+
+	::-webkit-scrollbar {
+		width: 10px;
+		height: 10px;
+	}
+
+	::-webkit-scrollbar-track {
+		background: #111118;
+	}
+
+	::-webkit-scrollbar-thumb {
+		border-radius: 999px;
+		border: 2px solid #111118;
+		background: linear-gradient(180deg, #6C63FF, #4f48c9);
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background: linear-gradient(180deg, #857dff, #5f59d8);
+	}
+}

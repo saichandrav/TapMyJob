@@ -13,7 +13,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { useMemo, useState } from 'react'
+import { Component, useEffect, useMemo, useRef, useState } from 'react'
 import { useJobs } from '../hooks/useJobs.js'
 import { useSourceStore } from '../store/sourceStore.js'
 
@@ -170,6 +170,64 @@ function StatChip({ label, value, accent }) {
 
 function tokenizeSkills(jobs) {
   return jobs.flatMap((job) => job.skills ?? [])
+}
+
+class ChartErrorBoundary extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.resetKey !== this.props.resetKey && this.state.hasError) {
+      this.setState({ hasError: false })
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex h-full min-h-[220px] items-center justify-center rounded-2xl border border-border bg-card/50 text-sm text-text-muted">
+          Chart temporarily unavailable.
+        </div>
+      )
+    }
+
+    return this.props.children
+  }
+}
+
+function SafeChartContainer({ className = '', minHeight = 220, children, resetKey }) {
+  const ref = useRef(null)
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    if (!ref.current) {
+      return undefined
+    }
+
+    const observer = new ResizeObserver((entries) => {
+      const entry = entries[0]
+      if (!entry) return
+      const { width, height } = entry.contentRect
+      setReady(width > 0 && height > 0)
+    })
+
+    observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={ref} className={`min-w-0 ${className}`} style={{ minHeight }}>
+      <ChartErrorBoundary resetKey={resetKey}>
+        {ready ? children : <div className="h-full min-h-[220px] rounded-2xl border border-border bg-card/40" />}
+      </ChartErrorBoundary>
+    </div>
+  )
 }
 
 export default function Analytics() {
@@ -341,8 +399,8 @@ export default function Analytics() {
       </section>
 
       <ChartCard title="Jobs Found Over Time" description="Multi-line volume by platform across the selected date range." className="overflow-hidden" >
-        <div className="h-96 rounded-3xl border border-border bg-[#111118] p-4">
-          <ResponsiveContainer width="100%" height="100%">
+        <SafeChartContainer className="h-96 rounded-3xl border border-border bg-[#111118] p-4" minHeight={300} resetKey={`line-${rangeId}`}>
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280} debounce={80}>
             <LineChart data={analytics.lineSeries} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
               <CartesianGrid stroke={GRID_COLOR} strokeDasharray="4 6" />
               <XAxis dataKey="label" tick={{ fill: AXIS_COLOR, fontSize: 11, fontFamily: 'var(--font-mono)' }} axisLine={{ stroke: GRID_COLOR }} tickLine={false} />
@@ -359,18 +417,18 @@ export default function Analytics() {
                   strokeWidth={3}
                   dot={false}
                   activeDot={{ r: 5 }}
-                  animationDuration={900}
+                  isAnimationActive={false}
                 />
               ))}
             </LineChart>
           </ResponsiveContainer>
-        </div>
+        </SafeChartContainer>
       </ChartCard>
 
       <div className="grid gap-6 xl:grid-cols-3">
         <ChartCard title="Jobs by Platform" description="Color-coded market share for each source.">
-          <div className="h-84 rounded-3xl border border-border bg-[#111118] p-4">
-            <ResponsiveContainer width="100%" height="100%">
+          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={280} resetKey={`platform-${rangeId}`}>
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280} debounce={80}>
               <PieChart>
                 <Tooltip content={<ChartTooltip />} />
                 <Legend content={<LegendDots />} />
@@ -382,7 +440,7 @@ export default function Analytics() {
                   outerRadius={95}
                   paddingAngle={3}
                   stroke="none"
-                  animationDuration={900}
+                  isAnimationActive={false}
                 >
                   {analytics.platformCounts.map((entry) => (
                     <Cell key={entry.name} fill={entry.color} />
@@ -390,51 +448,51 @@ export default function Analytics() {
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
-          </div>
+          </SafeChartContainer>
         </ChartCard>
 
         <ChartCard title="Top Job Titles" description="Horizontal bars ranked by frequency.">
-          <div className="h-84 rounded-3xl border border-border bg-[#111118] p-4">
-            <ResponsiveContainer width="100%" height="100%">
+          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={280} resetKey={`titles-${rangeId}`}>
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280} debounce={80}>
               <BarChart data={analytics.titleCounts} layout="vertical" margin={{ top: 6, right: 18, left: 18, bottom: 6 }}>
                 <CartesianGrid stroke={GRID_COLOR} strokeDasharray="4 6" horizontal={false} />
                 <XAxis type="number" tick={{ fill: AXIS_COLOR, fontSize: 11, fontFamily: 'var(--font-mono)' }} axisLine={{ stroke: GRID_COLOR }} tickLine={false} allowDecimals={false} />
                 <YAxis type="category" dataKey="name" width={120} tick={{ fill: AXIS_COLOR, fontSize: 11, fontFamily: 'var(--font-mono)' }} axisLine={{ stroke: GRID_COLOR }} tickLine={false} />
                 <Tooltip content={<ChartTooltip />} />
                 <Legend content={<LegendDots />} />
-                <Bar dataKey="value" name="Jobs" radius={[0, 12, 12, 0]} animationDuration={900}>
+                <Bar dataKey="value" name="Jobs" radius={[0, 12, 12, 0]} isAnimationActive={false}>
                   {analytics.titleCounts.map((entry, index) => (
                     <Cell key={entry.name} fill={PALETTE[index % PALETTE.length]} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
-          </div>
+          </SafeChartContainer>
         </ChartCard>
 
         <ChartCard title="Top Companies Hiring" description="Which employers appear most often in the feed.">
-          <div className="h-84 rounded-3xl border border-border bg-[#111118] p-4">
-            <ResponsiveContainer width="100%" height="100%">
+          <SafeChartContainer className="h-[21rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={280} resetKey={`companies-${rangeId}`}>
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={280} debounce={80}>
               <BarChart data={analytics.companyCounts} layout="vertical" margin={{ top: 6, right: 18, left: 18, bottom: 6 }}>
                 <CartesianGrid stroke={GRID_COLOR} strokeDasharray="4 6" horizontal={false} />
                 <XAxis type="number" tick={{ fill: AXIS_COLOR, fontSize: 11, fontFamily: 'var(--font-mono)' }} axisLine={{ stroke: GRID_COLOR }} tickLine={false} allowDecimals={false} />
                 <YAxis type="category" dataKey="name" width={110} tick={{ fill: AXIS_COLOR, fontSize: 11, fontFamily: 'var(--font-mono)' }} axisLine={{ stroke: GRID_COLOR }} tickLine={false} />
                 <Tooltip content={<ChartTooltip />} />
                 <Legend content={<LegendDots />} />
-                <Bar dataKey="value" name="Jobs" radius={[0, 12, 12, 0]} animationDuration={900}>
+                <Bar dataKey="value" name="Jobs" radius={[0, 12, 12, 0]} isAnimationActive={false}>
                   {analytics.companyCounts.map((entry, index) => (
                     <Cell key={entry.name} fill={PALETTE[(index + 2) % PALETTE.length]} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
-          </div>
+          </SafeChartContainer>
         </ChartCard>
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <ChartCard title="Top Skills in Demand" description="Word-cloud style emphasis using scaled font sizes in violet shades.">
-          <div className="min-h-88 rounded-3xl border border-border bg-[#111118] p-5">
+          <div className="min-h-[22rem] rounded-3xl border border-border bg-[#111118] p-5">
             <div className="flex min-h-72 flex-wrap content-center gap-3">
               {analytics.skillCounts.map((skill, index) => {
                 const minFont = 14
@@ -482,8 +540,8 @@ export default function Analytics() {
               ))}
 
               {analytics.heatmap.map((row) => (
-                <>
-                  <div key={`${row[0].day}-label`} className="flex items-center pr-2 font-mono text-[11px] text-text-muted">
+                <div key={row[0].day} className="contents">
+                  <div className="flex items-center pr-2 font-mono text-[11px] text-text-muted">
                     {row[0].day}
                   </div>
                   {row.map((cell) => (
@@ -495,7 +553,7 @@ export default function Analytics() {
                       style={{ backgroundColor: valueToHeatColor(cell.value, analytics.maxHeatmapValue) }}
                     />
                   ))}
-                </>
+                </div>
               ))}
             </div>
           </div>
@@ -504,27 +562,27 @@ export default function Analytics() {
 
       <div className="grid gap-6 xl:grid-cols-2">
         <ChartCard title="Salary Distribution" description="Histogram of salary bands from the current feed.">
-          <div className="h-88 rounded-3xl border border-border bg-[#111118] p-4">
-            <ResponsiveContainer width="100%" height="100%">
+          <SafeChartContainer className="h-[22rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={300} resetKey={`salary-${rangeId}`}>
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={300} debounce={80}>
               <BarChart data={analytics.salaryBins} margin={{ top: 6, right: 16, left: 0, bottom: 0 }}>
                 <CartesianGrid stroke={GRID_COLOR} strokeDasharray="4 6" />
                 <XAxis dataKey="range" tick={{ fill: AXIS_COLOR, fontSize: 11, fontFamily: 'var(--font-mono)' }} axisLine={{ stroke: GRID_COLOR }} tickLine={false} />
                 <YAxis tick={{ fill: AXIS_COLOR, fontSize: 11, fontFamily: 'var(--font-mono)' }} axisLine={{ stroke: GRID_COLOR }} tickLine={false} allowDecimals={false} />
                 <Tooltip content={<ChartTooltip />} />
                 <Legend content={<LegendDots />} />
-                <Bar dataKey="value" name="Jobs" radius={[12, 12, 0, 0]} animationDuration={900}>
+                <Bar dataKey="value" name="Jobs" radius={[12, 12, 0, 0]} isAnimationActive={false}>
                   {analytics.salaryBins.map((entry, index) => (
                     <Cell key={entry.range} fill={PALETTE[(index + 1) % PALETTE.length]} />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
-          </div>
+          </SafeChartContainer>
         </ChartCard>
 
         <ChartCard title="Remote vs Onsite vs Hybrid" description="Location mix inferred from the current job set.">
-          <div className="h-88 rounded-3xl border border-border bg-[#111118] p-4">
-            <ResponsiveContainer width="100%" height="100%">
+          <SafeChartContainer className="h-[22rem] rounded-3xl border border-border bg-[#111118] p-4" minHeight={300} resetKey={`mix-${rangeId}`}>
+            <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={300} debounce={80}>
               <PieChart>
                 <Tooltip content={<ChartTooltip />} />
                 <Legend content={<LegendDots />} />
@@ -536,7 +594,7 @@ export default function Analytics() {
                   innerRadius={42}
                   stroke="none"
                   paddingAngle={3}
-                  animationDuration={900}
+                  isAnimationActive={false}
                 >
                   {analytics.locationPie.map((entry) => (
                     <Cell key={entry.name} fill={entry.color} />
@@ -544,7 +602,7 @@ export default function Analytics() {
                 </Pie>
               </PieChart>
             </ResponsiveContainer>
-          </div>
+          </SafeChartContainer>
         </ChartCard>
       </div>
     </div>
