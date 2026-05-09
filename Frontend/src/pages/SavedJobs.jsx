@@ -256,7 +256,6 @@ export default function SavedJobs() {
                     job={buildCardJob(job)}
                     variant="grid"
                     onBookmarkToggle={() => toggleSavedJob(job.id)}
-                    onQuickView={() => setSelectedJob(job)}
                     className={`h-full ${selected ? 'ring-2 ring-primary/40' : ''}`}
                   />
                 </div>

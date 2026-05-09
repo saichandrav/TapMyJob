@@ -150,7 +150,6 @@ export function JobCard({
   job,
   variant = 'grid',
   onBookmarkToggle,
-  onQuickView,
   className = '',
 }) {
   if (!job) {
@@ -227,13 +226,6 @@ export function JobCard({
                   <Bookmark className="h-4 w-4" fill={job.isSaved ? 'currentColor' : 'none'} />
                 </button>
 
-                <button
-                  type="button"
-                  onClick={onQuickView}
-                  className="rounded-xl border border-border bg-surface px-3 py-2 text-sm text-text-primary transition hover:border-primary/40 hover:bg-gray-100"
-                >
-                  Quick View
-                </button>
 
                 {job.jobUrl ? (
                   <a

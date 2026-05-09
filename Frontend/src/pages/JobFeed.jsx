@@ -537,7 +537,6 @@ export default function JobFeed() {
                 toggleSavedJob(job.id)
                 toast.success(savedJobIds.has(job.id) ? 'Job removed' : 'Job saved')
               }}
-              onQuickView={() => setSelectedJob(job)}
             />
           ))}
         </section>

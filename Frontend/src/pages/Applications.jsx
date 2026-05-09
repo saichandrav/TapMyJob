@@ -155,12 +155,13 @@ function DnDApplicationCard({ application, onOpen }) {
       style={{
         transform: transform ? `translate3d(${transform.x}px, ${transform.y}px, 0)` : undefined,
         opacity: isDragging ? 0.5 : 1,
+        borderLeftWidth: '3px',
+        borderLeftColor: getCardAccent(application.stage),
       }}
       {...attributes}
       {...listeners}
       onClick={() => onOpen(application)}
       className="group cursor-grab rounded-2xl border border-border bg-card px-4 py-3 shadow-[0_12px_34px_rgba(0,0,0,0.22)] transition hover:border-primary/30 hover:bg-gray-100 active:cursor-grabbing"
-      style={{ borderLeftWidth: '3px', borderLeftColor: getCardAccent(application.stage) }}
     >
       <div className="flex items-start gap-3">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-xs font-semibold text-text-primary">
