@@ -113,8 +113,6 @@ export default function JobFeed() {
   const {
     jobs,
     filters,
-    selectedJob,
-    setSelectedJob,
     toggleSavedJob,
     setFilters,
     resetFilters,
@@ -122,7 +120,6 @@ export default function JobFeed() {
   } = useJobs({ pageSize: 1000 })
   const setActivePage = useUIStore((state) => state.setActivePage)
   const [layoutMode, setLayoutMode] = useState('list')
-  const [detailOpen, setDetailOpen] = useState(true)
   const [searchDraft, setSearchDraft] = useState(filters.query)
   const [localDraft, setLocalDraft] = useState({
     ...filters,
@@ -187,17 +184,6 @@ export default function JobFeed() {
   }, [filters.platforms, filters.query, jobs, localDraft.datePosted, localDraft.experienceLevel, localDraft.jobTypes, localDraft.salaryRange, localDraft.skills])
 
   const totalJobs = derivedJobs.length
-  const selectedJobData = selectedJob ?? derivedJobs[0] ?? jobs[0] ?? null
-
-  useEffect(() => {
-    if (!selectedJobData) {
-      return
-    }
-
-    if (!selectedJob || !derivedJobs.some((job) => job.id === selectedJob.id)) {
-      setSelectedJob(selectedJobData)
-    }
-  }, [derivedJobs, selectedJob, selectedJobData, setSelectedJob])
 
   const visibleCards = useMemo(() => derivedJobs.slice(0, 24), [derivedJobs])
   const savedJobIds = useMemo(() => new Set(savedJobs), [savedJobs])
@@ -232,7 +218,6 @@ export default function JobFeed() {
       datePosted: '',
       skills: [],
     })
-    setSelectedJob(jobs[0] ?? null)
     toast('Filters cleared')
   }
 
@@ -547,6 +532,7 @@ export default function JobFeed() {
           </div>
         ) : null}
       </main>
+    </div>
 
 
     </>
