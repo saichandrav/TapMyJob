@@ -24,16 +24,16 @@ const platformLabelMap = platformConfigs.reduce((accumulator, platform) => {
 }, {})
 
 const filterPlatforms = [
-  { id: 'linkedin', label: 'LinkedIn' },
-  { id: 'naukri', label: 'Naukri' },
-  { id: 'indeed', label: 'Indeed' },
-  { id: 'google', label: 'Google' },
-  { id: 'microsoft', label: 'Microsoft' },
-  { id: 'amazon', label: 'Amazon' },
-  { id: 'infosys', label: 'Infosys' },
-  { id: 'tcs', label: 'TCS' },
-  { id: 'wipro', label: 'Wipro' },
-  { id: 'accenture', label: 'Accenture' },
+  { id: 'linkedin', label: 'LinkedIn', domain: 'linkedin.com' },
+  { id: 'naukri', label: 'Naukri', domain: 'naukri.com' },
+  { id: 'indeed', label: 'Indeed', domain: 'indeed.com' },
+  { id: 'google', label: 'Google', domain: 'google.com' },
+  { id: 'microsoft', label: 'Microsoft', domain: 'microsoft.com' },
+  { id: 'amazon', label: 'Amazon', domain: 'amazon.com' },
+  { id: 'infosys', label: 'Infosys', domain: 'infosys.com' },
+  { id: 'tcs', label: 'TCS', domain: 'tcs.com' },
+  { id: 'wipro', label: 'Wipro', domain: 'wipro.com' },
+  { id: 'accenture', label: 'Accenture', domain: 'accenture.com' },
 ]
 
 const jobTypes = ['Full-time', 'Part-time', 'Contract', 'Internship', 'Remote']
@@ -305,18 +305,29 @@ export default function JobFeed() {
                     key={platform.id}
                     type="button"
                     onClick={() => toggleDraftPlatform(platform.id)}
-                    className={`flex flex-col items-center justify-center gap-1 rounded-xl border py-2 px-1 text-xs transition ${
+                    className={`group flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-xl border p-2 text-xs transition-all duration-200 ${
                       isActive
-                        ? 'border-primary/40 bg-primary/10 text-primary'
-                        : 'border-border bg-card text-text-muted hover:border-primary/30 hover:text-text-primary'
+                        ? 'border-blue-500 bg-blue-50 text-blue-700'
+                        : 'border-border bg-card text-text-muted hover:border-blue-200 hover:bg-blue-50/50 hover:text-text-primary'
                     }`}
                   >
-                    <span className={`flex h-6 w-6 items-center justify-center rounded-lg border text-[9px] font-semibold uppercase ${
-                      isActive ? 'border-primary/30 bg-primary/20 text-primary' : 'border-border bg-background text-text-primary'
-                    }`}>
-                      {getCompanyInitials(platform.label)}
+                    <div className={`flex h-7 w-7 items-center justify-center rounded-lg bg-background p-1 transition-all ${isActive ? 'scale-110 shadow-sm' : ''}`}>
+                      <img 
+                        src={`https://logo.clearbit.com/${platform.domain}?size=64`} 
+                        alt={platform.label} 
+                        className={`h-full w-full object-contain transition-all duration-300 ${isActive ? 'grayscale-0' : 'grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100'}`}
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          if (e.target.nextElementSibling) e.target.nextElementSibling.style.display = 'flex';
+                        }}
+                      />
+                      <span className="hidden text-[10px] font-bold uppercase text-text-primary">
+                        {getCompanyInitials(platform.label)}
+                      </span>
+                    </div>
+                    <span className={`w-full truncate text-center text-[10px] leading-tight ${isActive ? 'font-medium' : ''}`}>
+                      {platform.label}
                     </span>
-                    <span className="w-full truncate text-center text-[10px] leading-tight">{platform.label}</span>
                   </button>
                 )
               })}
