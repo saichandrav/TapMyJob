@@ -15,7 +15,7 @@ import {
 } from 'lucide-react'
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
-import { useSourceStore } from '../store/sourceStore.js'
+
 import { useUIStore } from '../store/uiStore.js'
 import { useKeyboard } from '../hooks/useKeyboard.js'
 import SearchModal from '../components/search/SearchModal.jsx'
@@ -75,7 +75,6 @@ export default function AppShell({ pageTitle, children }) {
   const setSearchOpen = useUIStore((state) => state.setSearchOpen)
   const setActivePage = useUIStore((state) => state.setActivePage)
   const toggleSidebar = useUIStore((state) => state.toggleSidebar)
-  const lastSynced = useSourceStore((state) => state.lastSynced)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef(null)
 
@@ -307,17 +306,11 @@ export default function AppShell({ pageTitle, children }) {
                   </div>
                 ) : null}
               </div>
-
-              <div className="hidden items-center lg:flex">
-                <div className="font-mono text-sm text-text-muted">Last synced {lastSynced}</div>
-              </div>
             </div>
           </header>
 
           <main className="px-4 py-6 sm:px-6">
-            <div className="mb-6 flex items-center justify-between gap-4 lg:hidden">
-              <div className="font-mono text-sm text-text-muted">Last synced {lastSynced}</div>
-            </div>
+
             {children}
           </main>
         </div>
