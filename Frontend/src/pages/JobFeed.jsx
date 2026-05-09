@@ -120,6 +120,7 @@ export default function JobFeed() {
   } = useJobs({ pageSize: 1000 })
   const setActivePage = useUIStore((state) => state.setActivePage)
   const [layoutMode, setLayoutMode] = useState('list')
+  const [showFilters, setShowFilters] = useState(false)
   const [searchDraft, setSearchDraft] = useState(filters.query)
   const [localDraft, setLocalDraft] = useState({
     ...filters,
@@ -271,8 +272,9 @@ export default function JobFeed() {
 
   return (
     <>
-      <div className="grid min-h-[calc(100vh-7rem)] gap-6 md:grid-cols-[280px_minmax(0,1fr)]">
-      <aside className="rounded-3xl border border-border bg-surface/95 p-5 shadow-card-glow lg:sticky lg:top-20 lg:h-[calc(100vh-6rem)] lg:overflow-y-auto">
+      <div className={`grid min-h-[calc(100vh-7rem)] gap-6 ${showFilters ? 'md:grid-cols-[280px_minmax(0,1fr)]' : 'grid-cols-1'}`}>
+        {showFilters && (
+          <aside className="rounded-3xl border border-border bg-surface/95 p-5 shadow-card-glow lg:sticky lg:top-20 lg:h-[calc(100vh-6rem)] lg:overflow-y-auto">
         <div className="space-y-6">
           <label className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-muted">
             <Search className="h-4 w-4 shrink-0" />
@@ -295,21 +297,29 @@ export default function JobFeed() {
               Platforms
             </div>
 
-            <div className="grid gap-2">
-              {filterPlatforms.map((platform) => (
-                <label key={platform.id} className="flex cursor-pointer items-center gap-3 rounded-2xl border border-border bg-card px-3 py-2 text-sm text-text-muted transition hover:border-primary/30 hover:text-text-primary">
-                  <input
-                    type="checkbox"
-                    checked={(localDraft.platforms ?? []).includes(platform.id)}
-                    onChange={() => toggleDraftPlatform(platform.id)}
-                    className="h-4 w-4 rounded border-border bg-surface text-primary accent-primary"
-                  />
-                  <span className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-background text-[10px] font-semibold uppercase text-text-primary">
-                    {getCompanyInitials(platform.label)}
-                  </span>
-                  <span className="flex-1">{platform.label}</span>
-                </label>
-              ))}
+            <div className="grid grid-cols-4 gap-2">
+              {filterPlatforms.map((platform) => {
+                const isActive = (localDraft.platforms ?? []).includes(platform.id)
+                return (
+                  <button
+                    key={platform.id}
+                    type="button"
+                    onClick={() => toggleDraftPlatform(platform.id)}
+                    className={`flex flex-col items-center justify-center gap-1 rounded-xl border py-2 px-1 text-xs transition ${
+                      isActive
+                        ? 'border-primary/40 bg-primary/10 text-primary'
+                        : 'border-border bg-card text-text-muted hover:border-primary/30 hover:text-text-primary'
+                    }`}
+                  >
+                    <span className={`flex h-6 w-6 items-center justify-center rounded-lg border text-[9px] font-semibold uppercase ${
+                      isActive ? 'border-primary/30 bg-primary/20 text-primary' : 'border-border bg-background text-text-primary'
+                    }`}>
+                      {getCompanyInitials(platform.label)}
+                    </span>
+                    <span className="w-full truncate text-center text-[10px] leading-tight">{platform.label}</span>
+                  </button>
+                )
+              })}
             </div>
           </section>
 
@@ -345,23 +355,18 @@ export default function JobFeed() {
               Experience Level
             </div>
 
-            <div className="grid grid-cols-2 gap-2 rounded-2xl border border-border bg-card p-2">
-              {experienceLevels.map((level) => {
-                const active = localDraft.experienceLevel === level
-                return (
-                  <button
-                    key={level}
-                    type="button"
-                    onClick={() => setLocalDraft((current) => ({ ...current, experienceLevel: active ? '' : level }))}
-                    className={`rounded-xl px-3 py-2 text-sm transition ${
-                      active ? 'bg-primary/15 text-primary' : 'text-text-muted hover:bg-gray-100 hover:text-text-primary'
-                    }`}
-                  >
-                    {level}
-                  </button>
-                )
-              })}
-            </div>
+            <select
+              value={localDraft.experienceLevel}
+              onChange={(event) => setLocalDraft((current) => ({ ...current, experienceLevel: event.target.value }))}
+              className="w-full rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary outline-none focus:border-primary/40"
+            >
+              <option value="">Any experience</option>
+              {experienceLevels.map((level) => (
+                <option key={level} value={level}>
+                  {level}
+                </option>
+              ))}
+            </select
           </section>
 
           <section className="space-y-3">
@@ -400,23 +405,18 @@ export default function JobFeed() {
               Date Posted
             </div>
 
-            <div className="flex flex-wrap gap-2">
-              {datePostedOptions.map((option) => {
-                const active = localDraft.datePosted === option
-                return (
-                  <button
-                    key={option}
-                    type="button"
-                    onClick={() => setLocalDraft((current) => ({ ...current, datePosted: active ? '' : option }))}
-                    className={`rounded-full border px-3 py-2 text-xs transition ${
-                      active ? 'border-primary/40 bg-primary/10 text-primary' : 'border-border bg-card text-text-muted hover:border-primary/40 hover:text-text-primary'
-                    }`}
-                  >
-                    {option}
-                  </button>
-                )
-              })}
-            </div>
+            <select
+              value={localDraft.datePosted}
+              onChange={(event) => setLocalDraft((current) => ({ ...current, datePosted: event.target.value }))}
+              className="w-full rounded-2xl border border-border bg-card px-4 py-3 text-sm text-text-primary outline-none focus:border-primary/40"
+            >
+              <option value="">Any time</option>
+              {datePostedOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select
           </section>
 
           <section className="space-y-3">
@@ -464,6 +464,7 @@ export default function JobFeed() {
           </div>
         </div>
       </aside>
+      )}
 
       <main className="min-w-0 space-y-5">
         <section className="rounded-3xl border border-border bg-surface/95 p-4 shadow-card-glow">
@@ -477,6 +478,16 @@ export default function JobFeed() {
             </div>
 
             <div className="flex items-center gap-2 self-start rounded-2xl border border-border bg-card p-1">
+              <button
+                type="button"
+                onClick={() => setShowFilters(!showFilters)}
+                className={`inline-flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition ${
+                  showFilters ? 'bg-primary/10 text-primary' : 'text-text-muted hover:text-text-primary'
+                }`}
+              >
+                <Filter className="h-4 w-4" /> Filters
+              </button>
+              <div className="mx-1 h-4 w-px bg-border"></div>
               <button
                 type="button"
                 onClick={() => setLayoutMode('grid')}
